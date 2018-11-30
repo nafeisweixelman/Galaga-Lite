@@ -22,7 +22,7 @@ namespace GalagaLite
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight;
-        public static int countdown = 5;
+        public static int countdown = 10;
         public static bool RoundEnded = false;
 
         public static int GameState = 0;             //0 refers to StartScreen, 1 to Level1
