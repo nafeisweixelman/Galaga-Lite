@@ -1,10 +1,10 @@
 # Galaga-Lite
-A modern remake of the classic arcade game.<br/>
+A modern remake of the classic arcade game
 
-Goal to impliment:<br/>
--Scoreboard of high scores<br/>
--Progression to different levels<br/>
--Movement of aliens and player spaceship<br/>
--Working laser that fires from player spaceship<br/>
--Life count that will decrease or increase<br/>
--Game over when life count hits zero<br/>
+Goal to impliment:
+-Scoreboard of high scores
+-Progression to different levels
+-Movement of aliens and player spaceship
+-Working laser that fires from player spaceship
+-Life count that will decrease or increase
+-Game over when life count hits zero
