@@ -1,4 +1,4 @@
-# Galaga-Lite
+Galaga-Lite
 A modern remake of the classic arcade game
 
 Goal to impliment:
@@ -8,3 +8,6 @@ Goal to impliment:
 -Working laser that fires from player spaceship
 -Life count that will decrease or increase
 -Game over when life count hits zero
+
+
+-11/29/2018 discovered how to use GitHub
