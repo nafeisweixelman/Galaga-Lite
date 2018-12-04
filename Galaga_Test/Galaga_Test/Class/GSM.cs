@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Galaga.Class
+namespace Galaga_Test.Class
 {
     class GSM
     {
@@ -17,6 +17,6 @@ namespace Galaga.Class
             else if (MainPage.gameState == 1)
                 MainPage.backGround = MainPage.level1;
         }
-            
+
     }
 }

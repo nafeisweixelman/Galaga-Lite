@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Galaga.Class
+namespace Galaga_Test.Class
 {
     class Storage
     {
@@ -40,7 +40,7 @@ namespace Galaga.Class
         public static async void UpdateScore()
         {
             int highScore = Convert.ToInt16(MainPage.strHighScore);
-            if(MainPage.myScore > highScore)
+            if (MainPage.myScore > highScore)
             {
                 try
                 {

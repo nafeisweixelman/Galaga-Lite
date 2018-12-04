@@ -1,4 +1,4 @@
-﻿using Galaga.Class;
+﻿using Galaga_Test.Class;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using System.Numerics;
 
-namespace Galaga
+namespace Galaga_Test
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -26,14 +26,14 @@ namespace Galaga
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1280;
         public static float DesignHeight = 720;
-        public static float scaleWidth, scaleHeight, pointX, pointY, laserX, laserY,myScore, boomX, boomY;
+        public static float scaleWidth, scaleHeight, pointX, pointY, laserX, laserY, myScore, boomX, boomY;
         public static int boomCount = 60;
         public static int gameState = 0;
         public static int gametime = 10, countdown = gametime;
         public static bool roundEnded = false;
         public static List<float> laserXPOS = new List<float>();
         public static List<float> laserYPOS = new List<float>();
-        public static List<float> percent= new List<float>();
+        public static List<float> percent = new List<float>();
         public static List<float> enemyXPOS = new List<float>();
         public static List<float> enemyYPOS = new List<float>();
         public static List<int> enemySHIP = new List<int>();
@@ -90,7 +90,7 @@ namespace Galaga
         {
             countdown--;
 
-            if(countdown < 1)
+            if (countdown < 1)
             {
                 roundTimer.Stop();
                 roundEnded = true;
@@ -219,7 +219,7 @@ namespace Galaga
 
         private void GameCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if(roundEnded == true)
+            if (roundEnded == true)
             {
                 gameState = 0;
                 roundEnded = false;
@@ -241,7 +241,7 @@ namespace Galaga
                     roundTimer.Start();
                     enemyTimer.Start();
                 }
-                else if(gameState > 0)
+                else if (gameState > 0)
                 {
                     laserXPOS.Add((float)e.GetPosition(GameCanvas).X);
                     laserYPOS.Add((float)e.GetPosition(GameCanvas).Y);

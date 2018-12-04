@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
-namespace Galaga.Class
+namespace Galaga_Test.Class
 {
     class Scaling
     {
