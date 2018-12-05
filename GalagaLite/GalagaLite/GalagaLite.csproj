@@ -137,6 +137,7 @@
     <Content Include="Assets\Images\explosion.png" />
     <Content Include="Assets\Images\galaga_logo.png" />
     <Content Include="Assets\Images\gameover.png" />
+    <Content Include="Assets\Images\laser.png" />
     <Content Include="Assets\Images\spaceship.png" />
     <Content Include="Assets\Images\star_background.png" />
     <Content Include="Properties\Default.rd.xml" />

@@ -17,7 +17,7 @@ namespace GalagaLite
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen;
+        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
@@ -63,6 +63,7 @@ namespace GalagaLite
             StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/galaga_logo.png"));
             Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/star_background.png"));
             ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameover.png"));
+            Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/laser.png"));
         }
 
         private void GameCanvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
@@ -78,6 +79,7 @@ namespace GalagaLite
             if (RoundEnded == true)
             {
                 GameState = 0;
+                RoundEnded = false;
             }
             else
             {
