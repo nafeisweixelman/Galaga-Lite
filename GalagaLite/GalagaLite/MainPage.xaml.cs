@@ -1,4 +1,4 @@
-﻿using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Generic;
