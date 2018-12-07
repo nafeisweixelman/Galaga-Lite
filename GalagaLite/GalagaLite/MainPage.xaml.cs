@@ -22,7 +22,7 @@ namespace GalagaLite
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
-        public static float scaleWidth, scaleHeight;
+        public static float scaleWidth, scaleHeight, pointX, pointY, photonX, photonY;
         public static int countdown = 6;
         public static bool RoundEnded = false;
 
@@ -32,12 +32,15 @@ namespace GalagaLite
         // Lists (Projectile)
         public static List<float> photonXPOS = new List<float>();
         public static List<float> photonYPOS = new List<float>();
+        public static List<float> percent = new List<float>();
 
         public MainPage()
         {
             this.InitializeComponent();
             Window.Current.SizeChanged += Current_SizeChanged;
             Scaling.SetScale();
+            photonX = (float)bounds.Width / 2;
+            photonY = (float)bounds.Height;
 
             RoundTimer.Tick += RoundTimer_Tick;
             RoundTimer.Interval = new TimeSpan(0, 0, 1);       //hours, minutes, seconds
@@ -56,6 +59,8 @@ namespace GalagaLite
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             Scaling.SetScale();
+            photonX = (float)bounds.Width / 2;
+            photonY = (float)bounds.Height;
         }
 
         private void GameCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
@@ -80,7 +85,18 @@ namespace GalagaLite
             //Display Projectile
             for(int i =0; i<photonXPOS.Count; i++)
             {
-                args.DrawingSession.DrawImage(Scaling.img(Photon), photonXPOS[i] - (20 * scaleWidth), photonYPOS[i] - (20 * scaleHeight));
+                pointX = (photonX + (photonXPOS[i] - photonX) * percent[i]);
+                pointY = (photonY + (photonYPOS[i] - photonY) * percent[i]);
+                args.DrawingSession.DrawImage(Scaling.img(Photon), pointX - (20 * scaleWidth), pointY - (20 * scaleHeight));
+
+                percent[i] += (0.1f) * scaleHeight;
+
+                if(pointY < 0f)
+                {
+                    photonXPOS.RemoveAt(i);
+                    photonYPOS.RemoveAt(i);
+                    percent.RemoveAt(i);
+                }
             }
 
             GameCanvas.Invalidate();
@@ -106,6 +122,7 @@ namespace GalagaLite
                 {
                     photonXPOS.Add((float)e.GetPosition(GameCanvas).X);
                     photonYPOS.Add((float)e.GetPosition(GameCanvas).Y);
+                    percent.Add(0f);
                 }
             }
         }
