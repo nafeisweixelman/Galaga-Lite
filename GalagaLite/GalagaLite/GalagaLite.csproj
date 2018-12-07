@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Class\gsm.cs" />
     <Compile Include="Class\Scaling.cs" />
+    <Compile Include="Class\Storage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -134,9 +135,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\alien.png" />
+    <Content Include="Assets\Images\background1.jpg" />
+    <Content Include="Assets\Images\background2.jpg" />
+    <Content Include="Assets\Images\beam.jpg" />
+    <Content Include="Assets\Images\boom.JPG" />
+    <Content Include="Assets\Images\enemy.jpg" />
     <Content Include="Assets\Images\explosion.png" />
     <Content Include="Assets\Images\galaga_logo.png" />
     <Content Include="Assets\Images\gameover.png" />
+    <Content Include="Assets\Images\green.png" />
+    <Content Include="Assets\Images\scorescreen.jpg" />
+    <Content Include="Assets\Images\Space Invaders Icon2.png" />
     <Content Include="Assets\Images\spaceship.png" />
     <Content Include="Assets\Images\star_background.png" />
     <Content Include="Properties\Default.rd.xml" />
