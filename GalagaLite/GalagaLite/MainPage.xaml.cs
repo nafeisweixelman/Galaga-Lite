@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalagaLite.Class;
 using Windows.UI;
+using System.Collections.Generic;
 
 namespace GalagaLite
 {
@@ -22,11 +23,15 @@ namespace GalagaLite
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight;
-        public static int countdown = 3;
+        public static int countdown = 6;
         public static bool RoundEnded = false;
 
         public static int GameState = 0;             //0 refers to StartScreen, 1 to Level1
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
+
+        // Lists (Projectile)
+        public static List<float> photonXPOS = new List<float>();
+        public static List<float> photonYPOS = new List<float>();
 
         public MainPage()
         {
@@ -71,6 +76,13 @@ namespace GalagaLite
             gsm.GSM();
             args.DrawingSession.DrawImage(Scaling.img(BG));
             args.DrawingSession.DrawText(countdown.ToString(), 120, 120, Colors.White);
+
+            //Display Projectile
+            for(int i =0; i<photonXPOS.Count; i++)
+            {
+                args.DrawingSession.DrawImage(Scaling.img(Photon), photonXPOS[i] - (20 * scaleWidth), photonYPOS[i] - (20 * scaleHeight));
+            }
+
             GameCanvas.Invalidate();
         }
 
@@ -80,6 +92,7 @@ namespace GalagaLite
             {
                 GameState = 0;
                 RoundEnded = false;
+                countdown = 6;
             }
             else
             {
@@ -87,6 +100,12 @@ namespace GalagaLite
                 {
                     GameState += 1;
                     RoundTimer.Start();
+
+                }
+                else if (GameState > 0)
+                {
+                    photonXPOS.Add((float)e.GetPosition(GameCanvas).X);
+                    photonYPOS.Add((float)e.GetPosition(GameCanvas).Y);
                 }
             }
         }
