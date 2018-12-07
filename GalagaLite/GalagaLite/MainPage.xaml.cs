@@ -69,8 +69,6 @@ namespace GalagaLite
         public Random EnemyGenRand = new Random();
         public Random EnemyXstart = new Random();
 
-        //storage folder
-
 
         public MainPage()
         {
@@ -84,11 +82,6 @@ namespace GalagaLite
 
             EnemyTimer.Tick += EnemyTimer_Tick;
             EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, EnemyGenRand.Next(300, 3000));
-
-
-
-            Storage.CreateFile();
-            Storage.ReadFile();
 
             ShipXPOS = (float)bounds.Width / 2 - (65 * scaleWidth);
             ShipYPOS = (float)bounds.Height - (130 * scaleHeight);
@@ -140,8 +133,6 @@ namespace GalagaLite
         {
             bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             Scaling.SetScale();
-            //photonX = (float)bounds.Width / 2;
-            //photonY = (float)bounds.Height;
         }
 
         private void GameCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
@@ -156,7 +147,7 @@ namespace GalagaLite
             ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/scorescreen.jpg"));
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/Space Invaders Icon2.png"));
             Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/beam.jpg"));
-            Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/space2.jpg"));
+            Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/enemy.jpg"));
             Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/green.png"));
             Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.JPG"));
 
@@ -168,12 +159,6 @@ namespace GalagaLite
             args.DrawingSession.DrawText(countdown.ToString(), 100, 100, Colors.Yellow);
             if (RoundEnded == true)
             {
-                //if(MyScore > Convert.ToInt16(STRHighScore))
-                //{
-                Storage.UpdateScore();
-                //} 
-
-
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (36 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 480 * scaleHeight, Colors.White);
                 args.DrawingSession.DrawText("Highscore: " + Convert.ToInt16(STRHighScore), new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));

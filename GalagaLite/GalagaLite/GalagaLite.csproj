@@ -131,7 +131,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Assets\Images\space2jpg" />
     <None Include="GalagaLite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +139,7 @@
     <Content Include="Assets\Images\background2.jpg" />
     <Content Include="Assets\Images\beam.jpg" />
     <Content Include="Assets\Images\boom.JPG" />
+    <Content Include="Assets\Images\enemy.jpg" />
     <Content Include="Assets\Images\explosion.png" />
     <Content Include="Assets\Images\galaga_logo.png" />
     <Content Include="Assets\Images\gameover.png" />
