@@ -231,17 +231,20 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
-                GameState = 0;
-                RoundEnded = false;
-                countdown = 5;
+                if( ((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
+                {
+                    GameState = 0;
+                    RoundEnded = false;
+                    countdown = 5;
 
-                //Stop Enemy Timer
-                EnemyTimer.Stop();
-                enemyXPOS.Clear();
-                enemyYPOS.Clear();
-                enemySHIP.Clear();
-                enemyDIR.Clear();
-                MyScore = 0;
+                    //Stop Enemy Timer
+                    EnemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                    MyScore = 0;
+                }
 
             }
             else
