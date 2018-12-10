@@ -23,7 +23,7 @@ namespace GalagaLite
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight, pointX, pointY, photonX, photonY, MyScore, boomX, boomY;
         public static int boomCount = 50;
-        public static int countdown = 5;
+        public static int countdown = 25;
         public static bool RoundEnded = false;
 
         //High Score
@@ -189,7 +189,7 @@ namespace GalagaLite
                         pointY = (photonY + (photonYPOS[i] - photonY) * percent[i]);
                         args.DrawingSession.DrawImage(Scaling.img(Photon), pointX - (41 * scaleWidth), pointY - (63 * scaleHeight));
 
-                        percent[i] += (0.06f) * scaleHeight;
+                        percent[i] += (0.1f) * scaleHeight;
 
                         for (int h = 0; h < enemyXPOS.Count; h++)
                         {
@@ -236,7 +236,7 @@ namespace GalagaLite
                 {
                     GameState = 0;
                     RoundEnded = false;
-                    countdown = 5;
+                    countdown = 25;
 
                     //Stop Enemy Timer
                     EnemyTimer.Stop();
