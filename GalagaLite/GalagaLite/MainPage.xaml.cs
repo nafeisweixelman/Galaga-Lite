@@ -10,39 +10,50 @@ using Windows.UI.Xaml.Controls;
 using GalagaLite.Class;
 using Windows.UI;
 using System.Collections.Generic;
+using Microsoft.Graphics.Canvas.Text;
+using System.Numerics;
 
 namespace GalagaLite
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, SHIP_IMG, MyShip;
+        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, SHIP_IMG, MyShip, Boom;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
-        public static float scaleWidth, scaleHeight, pointX, pointY, photonX, photonY;
-        public static int countdown = 60;
+        public static float scaleWidth, scaleHeight, pointX, pointY, photonX, photonY, MyScore, boomX, boomY;
+        public static int boomCount = 50;
+        public static int countdown = 5;
         public static bool RoundEnded = false;
 
-        public static int GameState = 0;             //0 refers to StartScreen, 1 to Level1
+        //High Score
+        public static string STRHighScore = "0";
+
+        public static int GameState = 0;
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
 
-        // Lists (Projectile)
+        //Lists (Projectile)
         public static List<float> photonXPOS = new List<float>();
         public static List<float> photonYPOS = new List<float>();
         public static List<float> percent = new List<float>();
 
-        // Lists (Enemies)
+        //Lists (Enemies)
         public static List<float> enemyXPOS = new List<float>();
         public static List<float> enemyYPOS = new List<float>();
         public static List<int> enemySHIP = new List<int>();
+        public static List<string> enemyDIR = new List<string>();
 
         //Random Generators
         public Random EnemyShipRand = new Random();     //ship type
         public Random EnemyGenRand = new Random();      //generation interval
+        public Random EnemyXstart = new Random();
+
+        //Fonts
+        public static CanvasTextFormat textFormat1 = new CanvasTextFormat()
+        {
+            FontSize = 60, WordWrapping = CanvasWordWrapping.NoWrap
+        };
 
         public MainPage()
         {
@@ -56,20 +67,31 @@ namespace GalagaLite
             RoundTimer.Interval = new TimeSpan(0, 0, 1);       //hours, minutes, seconds
 
             EnemyTimer.Tick += EnemyTimer_Tick;
-            EnemyTimer.Interval = new TimeSpan(0, 0, 0,0, EnemyGenRand.Next(300,3000));
+            EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, EnemyGenRand.Next(300,2000));
 
-
+            Storage.CreateFile();
+            Storage.ReadFile();
         }
 
         private void EnemyTimer_Tick(object sender, object e)
         {
             int ES = EnemyShipRand.Next(1, 3);
+            int SP = EnemyXstart.Next(0, (int) bounds.Width);
+            
+            if(SP > bounds.Width /2)
+            {
+                enemyDIR.Add("left");
+            }
+            else
+            {
+                enemyDIR.Add("right");
+            }
 
-            enemyXPOS.Add(50 * scaleWidth);
-            enemyYPOS.Add(119 * scaleHeight);
+            enemyXPOS.Add(SP);
+            enemyYPOS.Add(-50 * scaleHeight);
             enemySHIP.Add(ES);
 
-            EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, EnemyGenRand.Next(300, 3000));
+            EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, EnemyGenRand.Next(500, 2000));
         }
 
         private void RoundTimer_Tick(object sender, object e)
@@ -84,6 +106,7 @@ namespace GalagaLite
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
+            bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             Scaling.SetScale();
             photonX = (float)bounds.Width / 2;
             photonY = (float)bounds.Height;
@@ -103,6 +126,7 @@ namespace GalagaLite
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
             Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
             Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
+            Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
         }
 
         private void GameCanvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
@@ -111,36 +135,94 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             args.DrawingSession.DrawText(countdown.ToString(), 120, 120, Colors.White);
 
-            if(GameState > 0)
-            { 
-                args.DrawingSession.DrawImage(Scaling.img(MyShip),(float)bounds.Width / 2 - (64 * scaleWidth), (float)bounds.Height - (140 * scaleHeight));
-
-                //Displaying Enemies
-                for (int j = 0; j < enemyXPOS.Count; j++)
+            if(RoundEnded == true)
+            {
+   
+                Storage.UpdateScore();
+                
+                CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), textFormat1, 0.0f, 0.0f);
+                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 816 * scaleHeight, Colors.White);
+                args.DrawingSession.DrawText("HighScore: " + Convert.ToInt16(STRHighScore), new Vector2(200,200), Color.FromArgb(255,200,150,210));
+            }
+            else
+            {
+                if (GameState > 0)
                 {
-                    if (enemySHIP[j] == 1) { SHIP_IMG = Enemy1; }
-                    if (enemySHIP[j] == 2) { SHIP_IMG = Enemy2; }
-                    enemyXPOS[j] += 3;
-                    args.DrawingSession.DrawImage(Scaling.img(SHIP_IMG), enemyXPOS[j], enemyYPOS[j]);
-                }
+                    args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 50, Color.FromArgb(255, 255, 255, 255));
 
-                //Display Projectile
-                for (int i = 0; i < photonXPOS.Count; i++)
-                {
-                    pointX = (photonX + (photonXPOS[i] - photonX) * percent[i]);
-                    pointY = (photonY + (photonYPOS[i] - photonY) * percent[i]);
-                    args.DrawingSession.DrawImage(Scaling.img(Photon), pointX - (41 * scaleWidth), pointY - (63 * scaleHeight));
-
-                    percent[i] += (0.025f) * scaleHeight;
-
-                    if (pointY < 0f)
+                    //Explosion
+                    if (boomX > 0 && boomY > 0 && boomCount > 0)
                     {
-                        photonXPOS.RemoveAt(i);
-                        photonYPOS.RemoveAt(i);
-                        percent.RemoveAt(i);
+                        args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
+                        boomCount -= 1;
                     }
+                    else
+                    {
+                        boomCount = 50;
+                        boomX = 0;
+                        boomY = 0;
+                    }
+
+                    //Displaying Enemies
+                    for (int j = 0; j < enemyXPOS.Count; j++)
+                    {
+                        if (enemySHIP[j] == 1) { SHIP_IMG = Enemy1; }
+                        if (enemySHIP[j] == 2) { SHIP_IMG = Enemy2; }
+
+                        if (enemyDIR[j] == "left")
+                        {
+                            enemyXPOS[j] -= 3;
+                        }
+                        else
+                        {
+                            enemyXPOS[j] += 3;
+                        }
+                        enemyYPOS[j] += 3;
+                        args.DrawingSession.DrawImage(Scaling.img(SHIP_IMG), enemyXPOS[j], enemyYPOS[j]);
+                    }
+
+                    //Display Projectile
+                    for (int i = 0; i < photonXPOS.Count; i++)
+                    {
+                        pointX = (photonX + (photonXPOS[i] - photonX) * percent[i]);
+                        pointY = (photonY + (photonYPOS[i] - photonY) * percent[i]);
+                        args.DrawingSession.DrawImage(Scaling.img(Photon), pointX - (41 * scaleWidth), pointY - (63 * scaleHeight));
+
+                        percent[i] += (0.06f) * scaleHeight;
+
+                        for (int h = 0; h < enemyXPOS.Count; h++)
+                        {
+                            if (pointX >= enemyXPOS[h] && pointX <= enemyXPOS[h] + (130 * scaleWidth) && pointY >= enemyYPOS[h] && pointY <= enemyYPOS[h] + (120 * scaleHeight))
+                            {
+                                boomX = pointX - (65 * scaleWidth);
+                                boomY = pointY - (60 * scaleHeight);
+
+                                enemyXPOS.RemoveAt(h);
+                                enemyYPOS.RemoveAt(h);
+                                enemySHIP.RemoveAt(h);
+                                enemyDIR.RemoveAt(h);
+
+                                photonXPOS.RemoveAt(i);
+                                photonYPOS.RemoveAt(i);
+                                percent.RemoveAt(i);
+
+                                MyScore = MyScore + 100;
+
+                                break;
+                            }
+                        }
+
+                        if (pointY < 0f)
+                        {
+                            photonXPOS.RemoveAt(i);
+                            photonYPOS.RemoveAt(i);
+                            percent.RemoveAt(i);
+                        }
+                    }
+                    args.DrawingSession.DrawImage(Scaling.img(MyShip), (float)bounds.Width / 2 - (64 * scaleWidth), (float)bounds.Height - (140 * scaleHeight));
                 }
             }
+                
 
             GameCanvas.Invalidate();
         }
@@ -151,13 +233,16 @@ namespace GalagaLite
             {
                 GameState = 0;
                 RoundEnded = false;
-                countdown = 60;
+                countdown = 5;
 
                 //Stop Enemy Timer
                 EnemyTimer.Stop();
                 enemyXPOS.Clear();
                 enemyYPOS.Clear();
                 enemySHIP.Clear();
+                enemyDIR.Clear();
+                MyScore = 0;
+
             }
             else
             {
