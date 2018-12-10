@@ -17,7 +17,7 @@ namespace GalagaLite
 {
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, SHIP_IMG, MyShip, Boom;
+        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, SHIP_IMG, MyShip, Boom, Rules;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
@@ -122,6 +122,7 @@ namespace GalagaLite
             StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/galaga_logo.png"));
             Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/star_background.png"));
             ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameover.png"));
+            Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rules.png"));
             Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/laser.png"));
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
             Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
@@ -146,7 +147,7 @@ namespace GalagaLite
             }
             else
             {
-                if (GameState > 0)
+                if (GameState > 1)
                 {
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 50, Color.FromArgb(255, 255, 255, 255));
 
@@ -249,14 +250,26 @@ namespace GalagaLite
             }
             else
             {
-                if (GameState == 0)
+                if (GameState != 2)
                 {
-                    GameState += 1;
-                    RoundTimer.Start();
-                    EnemyTimer.Start();
+                    if (((float)e.GetPosition(GameCanvas).X > 1102 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1383 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 803 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 870 * scaleHeight)
+                    {
+                        GameState = 1;
+                    }
 
+                    if (((float)e.GetPosition(GameCanvas).X > 258 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 624 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 670 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 805 * scaleHeight)
+                    {
+                        GameState = 0;
+                    }
+
+                    if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
+                    {
+                        GameState = 2;
+                        RoundTimer.Start();
+                        EnemyTimer.Start();
+                    }
                 }
-                else if (GameState > 0)
+                else if (GameState > 1)
                 {
                     photonXPOS.Add((float)e.GetPosition(GameCanvas).X);
                     photonYPOS.Add((float)e.GetPosition(GameCanvas).Y);

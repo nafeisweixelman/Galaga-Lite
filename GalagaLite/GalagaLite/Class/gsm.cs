@@ -16,6 +16,10 @@
                 }
                 else if (MainPage.GameState == 1)
                 {
+                    MainPage.BG = MainPage.Rules;
+                }
+                else if (MainPage.GameState == 2)
+                {
                     MainPage.BG = MainPage.Level1;
                 }
             }
