@@ -1,4 +1,10 @@
-﻿using Galaga_Test.Class;
+﻿/*
+ * Sources:
+ * https://stackoverflow.com/questions/25131325/how-i-can-move-image-with-keys-in-c-sharp-window-store-app?rq=1
+ * 
+ */
+
+using Galaga_Test.Class;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -15,6 +21,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using System.Numerics;
 
+
 namespace Galaga_Test
 {
     /// <summary>
@@ -22,14 +29,14 @@ namespace Galaga_Test
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap boom, backGround, startScreen, level1, scoreScreen, laser, enemy1, enemy2, SHIP_IMG, myShip;
+        public static CanvasBitmap level, boom, backGround, startScreen, scoreScreen, laser, enemy1, enemy2, SHIP_IMG, myShip;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1280;
         public static float DesignHeight = 720;
         public static float scaleWidth, scaleHeight, pointX, pointY, laserX, laserY, myScore, boomX, boomY;
         public static int boomCount = 60;
-        public static int gameState = 0;
-        public static int gametime = 10, countdown = gametime;
+        public static int gameState = 0, myShipXPos = 0;
+        public static int gametime = 10, countdown = gametime, levels = 1, lives = 3;
         public static bool roundEnded = false;
         public static List<float> laserXPOS = new List<float>();
         public static List<float> laserYPOS = new List<float>();
@@ -37,6 +44,7 @@ namespace Galaga_Test
         public static List<float> enemyXPOS = new List<float>();
         public static List<float> enemyYPOS = new List<float>();
         public static List<int> enemySHIP = new List<int>();
+
         public static List<string> enemyDIR = new List<string>();
 
         public Random enemyShipRand = new Random();
@@ -49,6 +57,7 @@ namespace Galaga_Test
 
         public static DispatcherTimer roundTimer = new DispatcherTimer();
         public static DispatcherTimer enemyTimer = new DispatcherTimer();
+        private object grid;
 
         public MainPage()
         {
@@ -111,10 +120,17 @@ namespace Galaga_Test
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
 
+        /*private void HandleKeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
+        {
+            if (args.VirtualKey == Windows.System.VirtualKey.Right)
+                myShipXPos += 3;
+            else if (args.VirtualKey == Windows.System.VirtualKey.Left)
+                myShipXPos -= 3;
+        }*/
         async Task CreateResourcesAsync(CanvasControl sender)
         {
             startScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/universo.jpg"));
-            level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/universo.jpg"));
+            level = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/universo.jpg"));
             scoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/image.png"));
             laser = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/blue.png"));
             enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/image.png"));
@@ -127,6 +143,7 @@ namespace Galaga_Test
             GSM.Gsm();
             args.DrawingSession.DrawImage(Scaling.img(backGround));
             args.DrawingSession.DrawText(countdown.ToString(), 100, 100, Colors.Yellow);
+            args.DrawingSession.DrawText(levels.ToString(), 200, 200, Colors.Red);
 
             if (roundEnded == true)
             {
@@ -208,6 +225,7 @@ namespace Galaga_Test
                             laserYPOS.RemoveAt(i);
                             percent.RemoveAt(i);
                         }
+
                     }
 
                     args.DrawingSession.DrawImage(Scaling.img(myShip), (float)bounds.Width / 2 - (46 * scaleWidth), (float)bounds.Height - (115 * scaleHeight));
@@ -217,27 +235,55 @@ namespace Galaga_Test
             GameCanvas.Invalidate();
         }
 
+        private void DrawLevel(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
+        {
+            if (gameState == 0)
+            {
+                CanvasTextLayout textLayout2 = new CanvasTextLayout(args.DrawingSession, "Level", new CanvasTextFormat() { FontSize = (36 * scaleWidth), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout2.DrawBounds.Width / 2), 480 * scaleHeight, Colors.Yellow);
+            }
+        }
+
         private void GameCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (roundEnded == true)
             {
-                gameState = 0;
-                roundEnded = false;
-                countdown = gametime;
-                myScore = 0;
+                if (lives > 1)
+                {
+                    gameState = 0;
+                    roundEnded = false;
+                    countdown = gametime;
+                    levels++;
 
-                enemyTimer.Stop();
-                enemyXPOS.Clear();
-                enemyYPOS.Clear();
-                enemySHIP.Clear();
-                enemyDIR.Clear();
+                    enemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                }
+                else
+                {
+                    gameState = 0;
+                    roundEnded = false;
+                    countdown = gametime;
+                    levels = 1;
+                    lives = 3;
+                    myScore = 0;
 
+                    enemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                }
+
+                lives--;
             }
             else
             {
                 if (gameState == 0)
                 {
-                    gameState++;
+                    gameState = levels;
                     roundTimer.Start();
                     enemyTimer.Start();
                 }
