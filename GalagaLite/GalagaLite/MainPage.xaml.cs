@@ -54,12 +54,14 @@ namespace GalagaLite
 
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
+
         //Lists (Projectile)
         public static List<float> photonXPOS = new List<float>();
         public static List<float> photonYPOS = new List<float>();
         public static List<float> percent = new List<float>();
         public static List<float> photonXPOSs = new List<float>();
         public static List<float> photonYPOSs = new List<float>();
+        public static Ship myShip;
 
         //Lists (Enemies)
         public static List<float> enemyXPOS = new List<float>();
@@ -67,12 +69,17 @@ namespace GalagaLite
         public static List<int> enemySHIP = new List<int>();
         public static List<string> enemyDIR = new List<string>();
         public static List<Alien> alienList = new List<Alien>();
+        public static Boolean leftMovement = false;
+        public static Boolean rightMovement = false;
+        public static Boolean shoot = false;
 
         public MainPage()
         {
 
             this.InitializeComponent();
             Window.Current.SizeChanged += Current_SizeChanged;
+            Window.Current.CoreWindow.KeyDown += Ship.CoreWindow_KeyDown;
+            Window.Current.CoreWindow.KeyUp += Ship.CoreWindow_KeyUp;
             Scaling.SetScale();
             photonX = (float)bounds.Width / 2;
             photonY = (float)bounds.Height;
@@ -81,9 +88,43 @@ namespace GalagaLite
 
             EnemyTimer.Tick += EnemyTimer_Tick;
 
-            ShipXPOS = (float)bounds.Width / 2 - (65 * scaleWidth);
-            ShipYPOS = (float)bounds.Height - (130 * scaleHeight);
+            //myShip.ShipXPOS = (float)bounds.Width / 2 - (65 * scaleWidth);
+            //myShip.ShipYPOS = (float)bounds.Height - (130 * scaleHeight);
+            myShip = new Ship((float)bounds.Width / 2 - (65 * scaleWidth), (float)bounds.Height - (130 * scaleHeight));
         }
+
+        //private void CoreWindow_KeyUp(CoreWindow sender, KeyEventArgs args)
+        //{
+        //    if(args.VirtualKey == VirtualKey.A)
+        //    {
+        //        leftMovement = false;
+        //    }
+        //    if(args.VirtualKey == VirtualKey.D)
+        //    {
+        //        rightMovement = false;
+        //    }
+        //    if(args.VirtualKey == VirtualKey.Space)
+        //    {
+        //        shoot = false;
+        //    }
+        //}
+
+        //private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        //{
+        //    if (args.VirtualKey == VirtualKey.A)
+        //    {
+        //        leftMovement = true;
+        //    }
+        //    if (args.VirtualKey == VirtualKey.D)
+        //    {
+        //        rightMovement = true;
+        //    }
+        //    if (args.VirtualKey == VirtualKey.Space)
+        //    {
+        //        shoot = true;
+        //    }
+        //}
+
         private void EnemyTimer_Tick(object sender, object e)
         {
             for (int a = 0; a < 20; a++)
@@ -97,17 +138,17 @@ namespace GalagaLite
                 totalEnemies -= 1;
             }
         }
-        void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Right)
-            {
-                ShipXPOS = ShipXPOS + 3;
-            }
-            if (e.Key == VirtualKey.Left)
-            {
-                ShipXPOS = ShipXPOS - 3;
-            }
-        }
+        //void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
+        //{
+        //    if (e.Key == VirtualKey.Right)
+        //    {
+        //        ShipXPOS = ShipXPOS + 3;
+        //    }
+        //    if (e.Key == VirtualKey.Left)
+        //    {
+        //        ShipXPOS = ShipXPOS - 3;
+        //    }
+        //}
         private void RoundTimer_Tick(object sender, object e)
         {
             countdown -= 1;
@@ -160,6 +201,7 @@ namespace GalagaLite
                 if (GameState > 0)
                 {
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 10, Color.FromArgb(255, 255, 255, 255));
+                    myShip.MoveShip();
                     if (boomX > 0 && boomY > 0 && boomCount > 0)
                     {
                         args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
@@ -183,6 +225,7 @@ namespace GalagaLite
                         {
                             SHIP_IMG = Enemy2;
                         }
+
                         alienList[j].Move();
                         args.DrawingSession.DrawImage(Scaling.img(SHIP_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
 
@@ -232,7 +275,7 @@ namespace GalagaLite
                             percent.RemoveAt(i);
                         }
                     }
-                    args.DrawingSession.DrawImage(Scaling.img(MyShip), ShipXPOS, ShipYPOS);
+                    args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, myShip.ShipYPOS);
                 }
             }
 
