@@ -23,7 +23,7 @@ namespace GalagaLite
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight, pointX, pointY, photonX, photonY, MyScore, boomX, boomY;
         public static int boomCount = 50;
-        public static int countdown = 25;
+        public static int countdown = 5;
         public static bool RoundEnded = false;
 
         //High Score
@@ -143,7 +143,7 @@ namespace GalagaLite
                 
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), textFormat1, 0.0f, 0.0f);
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 816 * scaleHeight, Colors.White);
-                args.DrawingSession.DrawText("HighScore: " + Convert.ToInt16(STRHighScore), new Vector2(200,200), Color.FromArgb(255,200,150,210));
+                args.DrawingSession.DrawText("HighScores\n" + Convert.ToInt16(STRHighScore), new Vector2(200,200), Color.FromArgb(255,200,150,210));
             }
             else
             {
@@ -236,7 +236,7 @@ namespace GalagaLite
                 {
                     GameState = 0;
                     RoundEnded = false;
-                    countdown = 25;
+                    countdown = 5;
 
                     //Stop Enemy Timer
                     EnemyTimer.Stop();
