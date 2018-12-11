@@ -15,7 +15,7 @@ namespace Galaga_Test.Class
             else if (MainPage.gameState == 0)
                 MainPage.backGround = MainPage.startScreen;
             else if (MainPage.gameState == 1)
-                MainPage.backGround = MainPage.level1;
+                MainPage.backGround = MainPage.level;
         }
 
     }
