@@ -136,11 +136,13 @@
   <ItemGroup>
     <Content Include="Assets\Images\alien.png" />
     <Content Include="Assets\Images\alien2.png" />
+    <Content Include="Assets\Images\background2.png" />
     <Content Include="Assets\Images\boom.png" />
     <Content Include="Assets\Images\galaga_logo.png" />
     <Content Include="Assets\Images\gameover.png" />
     <Content Include="Assets\Images\laser.png" />
     <Content Include="Assets\Images\rules.png" />
+    <Content Include="Assets\Images\scorescreen.png" />
     <Content Include="Assets\Images\spaceship.png" />
     <Content Include="Assets\Images\star_background.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
