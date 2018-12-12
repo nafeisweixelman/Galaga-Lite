@@ -12,15 +12,23 @@ namespace GalagaLite.Class
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
         public int AlienScore { get; set; }
-        public int AlienType { get; }
+        public int AlienType { get; set; }
         public static int fleetPOS = 10;
         public static int fleetDIR = 1;
-
+        /// <summary>
+        /// Default constructor for alien class
+        /// </summary>
         public Alien()
         {
             AlienXPOS = 0;
             AlienYPOS = 0;
         }
+        /// <summary>
+        /// Constructor for alien class
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="type"></param>
         public Alien(float x, float y, int type)
         {
             AlienXPOS = x;
@@ -38,21 +46,25 @@ namespace GalagaLite.Class
                     AlienScore = 0;
                     break;
             }
-                
-        }   
-        public void Move()
+
+        }
+        /// <summary>
+        /// Move function for alien class to prevent any aliens moving off the screen
+        /// </summary>
+
+        public void MoveAlien()
         {
-            if (fleetPOS > 4500)
+            if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienXPOS > (MainPage.bounds.Width - 70 * MainPage.scaleWidth))
             {
                 fleetDIR = -1;
             }
-            if (fleetPOS < 10)
+            if (MainPage.alienList[0].AlienXPOS < 10)
             {
                 fleetDIR = 1;
             }
-            fleetPOS += fleetDIR;
             AlienXPOS += fleetDIR;
         }
+
 
 
         

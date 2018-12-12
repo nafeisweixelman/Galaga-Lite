@@ -122,6 +122,7 @@
     <Compile Include="Class\Alien.cs" />
     <Compile Include="Class\gsm.cs" />
     <Compile Include="Class\Scaling.cs" />
+    <Compile Include="Class\Ship.cs" />
     <Compile Include="Class\Storage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
