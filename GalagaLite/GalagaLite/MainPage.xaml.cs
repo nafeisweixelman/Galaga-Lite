@@ -66,7 +66,8 @@ namespace GalagaLite
 
             EnemyTimer.Tick += EnemyTimer_Tick;
 
-            myShip = new Ship((float)bounds.Width / 2 - (46 * scaleWidth), (float)bounds.Height - (130 * scaleHeight));
+            //64 if half of spaceship.png and 150 is more than 128 to give space below the ship
+            myShip = new Ship((float)bounds.Width / 2 - (64 * scaleWidth), (float)bounds.Height - (150 * scaleHeight));
         }
 
 
@@ -170,9 +171,11 @@ namespace GalagaLite
 
                         for (int h = 0; h < alienList.Count; h++)
                         {
+                            //130 and 120 are dimensions from boom.png
                             if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (130 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (120 * scaleHeight))
                             {
-                                boomX = myShip.getBulletX()[i] - ( 65* scaleWidth);
+                                //65 is half of boom.png width and 120 is also from boom.png
+                                boomX = myShip.getBulletX()[i] - (65 * scaleWidth);
                                 boomY = myShip.getBulletY()[i] - (120 * scaleHeight);
 
                                 MyScore = MyScore + alienList[h].AlienScore;
@@ -196,6 +199,7 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
+                //Button pixel positions on the scorescreen.png
                 if (((float)e.GetPosition(GameCanvas).X > 795 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1251 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 867 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 987 * scaleHeight)
                 {
                     GameState = 0;
@@ -215,16 +219,19 @@ namespace GalagaLite
             {
                 if (GameState != 2)
                 {
+                    //Button pixel positions on the galaga_logo.png for the how to play button
                     if (((float)e.GetPosition(GameCanvas).X > 1102 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1383 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 803 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 870 * scaleHeight)
                     {
                         GameState = 1;
                     }
 
+                    //Button pixel positions on the rules.png
                     if (((float)e.GetPosition(GameCanvas).X > 258 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 624 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 670 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 805 * scaleHeight)
                     {
                         GameState = 0;
                     }
 
+                    //Button pixel positions on the galaga_logo.png for the start game button
                     if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
                     {
                         GameState = 2;
