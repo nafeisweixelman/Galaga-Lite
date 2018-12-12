@@ -31,7 +31,7 @@ namespace GalagaLite.Class
         public static async void UpdateScore()
         {
 
-            if (MainPage.MyScore > score)
+            if (MainPage.MyScore > Int32.Parse(MainPage.STRHighScore))
             {
                 try
                 {
