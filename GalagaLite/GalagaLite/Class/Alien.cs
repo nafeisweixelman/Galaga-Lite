@@ -46,22 +46,22 @@ namespace GalagaLite.Class
                     AlienScore = 0;
                     break;
             }
-                
-        } 
+
+        }
         /// <summary>
         /// Move function for alien class to prevent any aliens moving off the screen
         /// </summary>
-        public void Move()
+
+        public void MoveAlien()
         {
-            if (fleetPOS > 4500)
+            if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienXPOS > (MainPage.bounds.Width - 70 * MainPage.scaleWidth))
             {
                 fleetDIR = -1;
             }
-            if (fleetPOS < 10)
+            if (MainPage.alienList[0].AlienXPOS < 10)
             {
                 fleetDIR = 1;
             }
-            fleetPOS += fleetDIR;
             AlienXPOS += fleetDIR;
         }
 

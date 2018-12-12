@@ -10,6 +10,7 @@ namespace GalagaLite.Class
     class Storage
     {
         public static StorageFolder StorageFolder = ApplicationData.Current.LocalFolder;
+        public static int highScore;
         public static async void CreateFile()
         {
             try
@@ -36,7 +37,9 @@ namespace GalagaLite.Class
         }
         public static async void UpdateScore()
         {
-            if (MainPage.MyScore > Convert.ToInt16(MainPage.STRHighScore))
+            highScore = Convert.ToInt16(MainPage.STRHighScore);
+
+            if (MainPage.MyScore > highScore)
             {
                 try
                 {

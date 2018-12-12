@@ -36,14 +36,10 @@ namespace GalagaLite
         public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
-        public static float DesignHeight = 1080;
+        public static float DesignHeight = 1200;
         public static float scaleWidth, scaleHeight;
-        public static float pointX, pointY;
-        public static float photonX, photonY;
         public static float MyScore, boomX, boomY;
-        public static float ShipXPOS = 0, ShipYPOS;
         public static int boomCount = 60;
-        public static int countdown = 20;
         public static int totalEnemies = 20;
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
@@ -55,11 +51,6 @@ namespace GalagaLite
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
 
-        //Lists (Projectile)
-        public static List<float> photonXPOS = new List<float>();
-        public static List<float> photonYPOS = new List<float>();
-        public static List<float> photonXPOSs = new List<float>();
-        public static List<float> photonYPOSs = new List<float>();
         public static Ship myShip;
 
         //Lists (Enemies)
@@ -103,13 +94,10 @@ namespace GalagaLite
         }
         private void RoundTimer_Tick(object sender, object e)
         {
-            countdown -= 1;
-
-            if (countdown < 1)
+            if (alienList.Count < 1)
             {
                 RoundTimer.Stop();
                 RoundEnded = true;
-                MyScore = 0;
             }
         }
 
@@ -140,12 +128,13 @@ namespace GalagaLite
         {
             GSM.gamelevel();
             args.DrawingSession.DrawImage(Scaling.img(BG));
-            args.DrawingSession.DrawText(countdown.ToString(), 100, 100, Colors.Yellow);
             if (RoundEnded == true)
             {
+                Storage.UpdateScore();
+
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (36 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 480 * scaleHeight, Colors.White);
-                args.DrawingSession.DrawText("Highscore: " + Convert.ToInt16(STRHighScore), new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));
+                args.DrawingSession.DrawText("Highscore: " + Storage.highScore, new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));
 
             }
             else
@@ -178,7 +167,7 @@ namespace GalagaLite
                             ALIEN_IMG = Enemy2;
                         }
 
-                        alienList[j].Move();
+                        alienList[j].MoveAlien();
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
 
                     }
@@ -204,15 +193,6 @@ namespace GalagaLite
                             }
                         }
 
-
-
-                        if (pointY < 0f)
-                        {
-                            photonXPOS.RemoveAt(i);
-                            photonYPOS.RemoveAt(i);
-                            photonXPOSs.RemoveAt(i);
-                            photonYPOSs.RemoveAt(i);
-                        }
                     }
                     args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, myShip.ShipYPOS);
                 }
@@ -227,7 +207,6 @@ namespace GalagaLite
             {
                 GameState = 0;
                 RoundEnded = false;
-                countdown = 6;
 
                 EnemyTimer.Stop();
                 enemyXPOS.Clear();
@@ -240,6 +219,7 @@ namespace GalagaLite
             {
                 if (GameState == 0)
                 {
+                    MyScore = 0;
                     GameState++;
                     RoundTimer.Start();
                     EnemyTimer.Start();
@@ -247,10 +227,6 @@ namespace GalagaLite
                 }
                 else if (GameState > 0)
                 {
-                    photonXPOSs.Add((float)(ShipXPOS + (MyShip.Bounds.Width * scaleWidth / 2)));
-                    photonYPOSs.Add((float)bounds.Height - (65 * scaleHeight));
-                    photonXPOS.Add((float)e.GetPosition(GameCanvas).X);
-                    photonYPOS.Add((float)e.GetPosition(GameCanvas).Y);
                 }
             }
 
