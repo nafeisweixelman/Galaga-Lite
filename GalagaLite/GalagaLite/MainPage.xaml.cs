@@ -139,7 +139,7 @@ namespace GalagaLite
             }
             else
             {
-                if (GameState > 0)
+                if (GameState > 1)
                 {
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 10, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
@@ -239,6 +239,7 @@ namespace GalagaLite
                         GameState = 2;
                         RoundTimer.Start();
                         EnemyTimer.Start();
+                        Ship.bulletTimer.Start();
                     }
                 }
                 else if (GameState > 1) { }
