@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -48,7 +45,7 @@ namespace GalagaLite.Class
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.KeyUp += CoreWindow_KeyUp;
             bulletTimer.Tick += bulletTimer_Tick;
-            bulletTimer.Interval = new TimeSpan(0, 0, 0 , 0, 50);
+            bulletTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
         }
         /// <summary>
         /// shootWait int variable deincremented to limit amount of shots per second
@@ -57,7 +54,7 @@ namespace GalagaLite.Class
         /// <param name="e"></param>
         private void bulletTimer_Tick(object sender, object e)
         {
-            if(shootWait > 0)
+            if (shootWait > 0)
                 shootWait--;
         }
         /// <summary>
@@ -150,7 +147,7 @@ namespace GalagaLite.Class
             for (int a = 0; a < BulletXPOS.Count; a++)
             {
                 BulletYPOS[a] -= 10;
-                if(BulletYPOS[a] < 0f)
+                if (BulletYPOS[a] < 0f)
                 {
                     removeBullet(a);
                 }

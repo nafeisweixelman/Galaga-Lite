@@ -33,19 +33,20 @@ namespace GalagaLite
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom;
+        public static CanvasBitmap BG, Rules, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
-        public static int totalEnemies = 5;
+        public static int totalEnemies = 20;
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
 
         public static int GameState = 0;
+        //High Score
         public static string STRHighScore = "0";
 
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
@@ -81,9 +82,9 @@ namespace GalagaLite
 
         private void EnemyTimer_Tick(object sender, object e)
         {
-            for (int a = 0; a < 5; a++)
+            for (int a = 0; a < 20; a++)
             {
-                if(totalEnemies > 0)
+                if (totalEnemies > 0)
                 {
                     Alien myAlien = new Alien((90 * a * scaleHeight), (50 + scaleHeight), 1);
                     alienList.Add(myAlien);
@@ -114,15 +115,15 @@ namespace GalagaLite
 
         async Task CreateResourcesAsync(CanvasControl sender)
         {
-            StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background1.jpg"));
-            Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2.jpg"));
-            ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/scorescreen.jpg"));
-            MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/Space Invaders Icon2.png"));
-            Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/beam.jpg"));
-            Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/enemy1.JPG"));
-            Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/enemy2.JPG"));
-            Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.JPG"));
-
+            StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/galaga_logo.png"));
+            Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2.png"));
+            ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/scorescreen.png"));
+            Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rules.png"));
+            Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/laser.png"));
+            MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
+            Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
+            Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
+            Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
         }
         private void GameCanvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
@@ -133,9 +134,8 @@ namespace GalagaLite
                 Storage.UpdateScore();
 
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (36 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
-                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 480 * scaleHeight, Colors.White);
-                args.DrawingSession.DrawText("Highscore: " + Storage.highScore, new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));
-
+                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 820 * scaleHeight, Colors.White);
+                args.DrawingSession.DrawText("HighScores\n" + Convert.ToInt16(STRHighScore), new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));
             }
             else
             {
@@ -173,9 +173,9 @@ namespace GalagaLite
                     }
                     //Display Projectiles
                     for (int i = 0; i < myShip.getBulletX().Count; i++)
-                    { 
+                    {
 
-                        args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i] - (12 * scaleWidth), myShip.getBulletY()[i] - (25 * scaleHeight));
+                        args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i] - (41 * scaleWidth), myShip.getBulletY()[i] - (63 * scaleHeight));
 
                         for (int h = 0; h < alienList.Count; h++)
                         {
@@ -205,31 +205,44 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
-                GameState = 0;
-                RoundEnded = false;
+                if (((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
+                {
+                    GameState = 0;
+                    RoundEnded = false;
 
-                EnemyTimer.Stop();
-                enemyXPOS.Clear();
-                enemyYPOS.Clear();
-                enemySHIP.Clear();
-                enemyDIR.Clear();
+                    //Stop Enemy Timer
+                    EnemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                    MyScore = 0;
+                }
+
             }
-
             else
             {
-                if (GameState == 0)
+                if (GameState != 2)
                 {
-                    MyScore = 0;
-                    GameState++;
-                    RoundTimer.Start();
-                    EnemyTimer.Start();
-                    Ship.bulletTimer.Start();
-                }
-                else if (GameState > 0)
-                {
-                }
-            }
+                    if (((float)e.GetPosition(GameCanvas).X > 1102 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1383 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 803 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 870 * scaleHeight)
+                    {
+                        GameState = 1;
+                    }
 
+                    if (((float)e.GetPosition(GameCanvas).X > 258 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 624 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 670 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 805 * scaleHeight)
+                    {
+                        GameState = 0;
+                    }
+
+                    if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
+                    {
+                        GameState = 2;
+                        RoundTimer.Start();
+                        EnemyTimer.Start();
+                    }
+                }
+                else if (GameState > 1) { }
+            }
         }
     }
 }
