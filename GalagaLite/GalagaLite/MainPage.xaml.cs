@@ -34,6 +34,7 @@ namespace GalagaLite
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
+        public static int Level = 1;
 
         public static int GameState = 0;
         //High Score
@@ -125,6 +126,7 @@ namespace GalagaLite
                 Storage.UpdateScore();
 
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (36 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                //Positions the highscore board after game
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 820 * scaleHeight, Colors.White);
                 args.DrawingSession.DrawText("HighScores\n" + Convert.ToInt16(STRHighScore), new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));
             }
@@ -132,7 +134,12 @@ namespace GalagaLite
             {
                 if (GameState > 1)
                 {
-                    args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 10, Color.FromArgb(255, 255, 255, 255));
+                    //Positions the level number during game
+                    args.DrawingSession.DrawText("Level: " + Level.ToString(), (float)bounds.Width / 2, 10, Color.FromArgb(255, 255, 255, 255));
+                    // Positions the score board during game
+                    args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 40, Color.FromArgb(255, 255, 255, 255));
+                    // Positions the highscore board during game
+                    args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore), (float)bounds.Width / 2, 100, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
                     //Enemies
@@ -148,6 +155,7 @@ namespace GalagaLite
                         }
 
                         alienList[j].MoveAlien();
+                        //Alien.png needs no dimension scaling
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
 
                     }
@@ -166,17 +174,17 @@ namespace GalagaLite
                     //Display Projectiles
                     for (int i = 0; i < myShip.getBulletX().Count; i++)
                     {
-
+                        //Beam.png needs no dimension scaling
                         args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i], myShip.getBulletY()[i]);
 
                         for (int h = 0; h < alienList.Count; h++)
                         {
-                            //130 and 120 are dimensions from boom.png
-                            if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (130 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (120 * scaleHeight))
+                            //100 and 91 are dimensions from boom.png
+                            if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (100 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (91 * scaleHeight))
                             {
-                                //65 is half of boom.png width and 120 is also from boom.png
-                                boomX = myShip.getBulletX()[i] - (65 * scaleWidth);
-                                boomY = myShip.getBulletY()[i] - (120 * scaleHeight);
+                                //50 is half of boom.png width 100 and 91 is also from boom.png
+                                boomX = myShip.getBulletX()[i] - (50 * scaleWidth);
+                                boomY = myShip.getBulletY()[i] - (91 * scaleHeight);
 
                                 MyScore = MyScore + alienList[h].AlienScore;
 
