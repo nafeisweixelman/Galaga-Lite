@@ -36,11 +36,11 @@ namespace GalagaLite
         public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
-        public static float DesignHeight = 1200;
+        public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
-        public static int totalEnemies = 20;
+        public static int totalEnemies = 5;
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
@@ -81,7 +81,7 @@ namespace GalagaLite
 
         private void EnemyTimer_Tick(object sender, object e)
         {
-            for (int a = 0; a < 20; a++)
+            for (int a = 0; a < 5; a++)
             {
                 if(totalEnemies > 0)
                 {

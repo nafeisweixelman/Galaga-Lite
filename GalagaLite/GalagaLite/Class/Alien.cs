@@ -12,7 +12,7 @@ namespace GalagaLite.Class
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
         public int AlienScore { get; set; }
-        public int AlienType { get; }
+        public int AlienType { get; set; }
         public static int fleetPOS = 10;
         public static int fleetDIR = 1;
         /// <summary>
@@ -64,6 +64,7 @@ namespace GalagaLite.Class
             }
             AlienXPOS += fleetDIR;
         }
+
 
 
         

@@ -37,7 +37,11 @@ namespace GalagaLite.Class
         }
         public static async void UpdateScore()
         {
-            highScore = Convert.ToInt16(MainPage.STRHighScore);
+            try
+            {
+                highScore = Convert.ToInt16(MainPage.STRHighScore);
+            }
+            catch { }
 
             if (MainPage.MyScore > highScore)
             {
