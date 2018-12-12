@@ -13,6 +13,7 @@ namespace GalagaLite.Class
             try
             {
                 await StorageFolder.CreateFileAsync(filename, CreationCollisionOption.OpenIfExists);
+                StorageFile DataFile = await StorageFolder.GetFileAsync(filename);
             }
             catch { }
         }
@@ -29,7 +30,8 @@ namespace GalagaLite.Class
 
         public static async void UpdateScore()
         {
-            if (MainPage.MyScore > int.Parse(MainPage.STRHighScore))
+
+            if (MainPage.MyScore > score)
             {
                 try
                 {

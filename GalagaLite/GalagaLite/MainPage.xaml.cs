@@ -134,7 +134,7 @@ namespace GalagaLite
         {
             gsm.GSM();
             args.DrawingSession.DrawImage(Scaling.img(BG));
-            args.DrawingSession.DrawText(countdown.ToString(), 120, 120, Colors.White);
+            //args.DrawingSession.DrawText(countdown.ToString(), 120, 120, Colors.White);
 
             if(RoundEnded == true)
             {
@@ -142,7 +142,7 @@ namespace GalagaLite
                 Storage.UpdateScore();
                 
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), textFormat1, 0.0f, 0.0f);
-                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 816 * scaleHeight, Colors.White);
+                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 820 * scaleHeight, Colors.White);
                 args.DrawingSession.DrawText("HighScores\n" + Convert.ToInt16(STRHighScore), new Vector2(200,200), Color.FromArgb(255,200,150,210));
             }
             else
