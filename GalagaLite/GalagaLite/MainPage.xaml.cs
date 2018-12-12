@@ -195,7 +195,7 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
-                if (((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
+                if (((float)e.GetPosition(GameCanvas).X > 795 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1251 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 867 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 987 * scaleHeight)
                 {
                     GameState = 0;
                     RoundEnded = false;
