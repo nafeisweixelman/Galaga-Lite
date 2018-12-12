@@ -30,10 +30,11 @@ namespace GalagaLite
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
-        public static int totalEnemies = 20;
+        public static int totalEnemies = 3;
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
+        public static int lives=3, level=2;
 
         public static int GameState = 0;
         //High Score
@@ -195,6 +196,17 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
+                if(lives > 1)
+                {
+                    level++;
+                    GameState = level;
+
+                    EnemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                }
                 if (((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
                 {
                     GameState = 0;
@@ -227,12 +239,14 @@ namespace GalagaLite
                     if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
                     {
                         GameState = 2;
-                        RoundTimer.Start();
-                        EnemyTimer.Start();
-                        Ship.bulletTimer.Start();
                     }
                 }
-                else if (GameState > 1) { }
+                else if (GameState >= 2)
+                {
+                    RoundTimer.Start();
+                    EnemyTimer.Start();
+                    Ship.bulletTimer.Start();
+                }
             }
         }
     }
