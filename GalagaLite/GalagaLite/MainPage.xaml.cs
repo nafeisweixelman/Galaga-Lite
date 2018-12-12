@@ -133,17 +133,6 @@ namespace GalagaLite
                 {
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 10, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
-                    if (boomX > 0 && boomY > 0 && boomCount > 0)
-                    {
-                        args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
-                        boomCount--;
-                    }
-                    else
-                    {
-                        boomCount = 60;
-                        boomX = 0;
-                        boomY = 0;
-                    }
 
                     //Enemies
                     for (int j = 0; j < alienList.Count; j++)
@@ -161,18 +150,30 @@ namespace GalagaLite
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
 
                     }
+                    //draws explosion BOOM
+                    if (boomX > 0 && boomY > 0 && boomCount > 0)
+                    {
+                        args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
+                        boomCount--;
+                    }
+                    else
+                    {
+                        boomCount = 60;
+                        boomX = 0;
+                        boomY = 0;
+                    }
                     //Display Projectiles
                     for (int i = 0; i < myShip.getBulletX().Count; i++)
                     {
 
-                        args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i] - (41 * scaleWidth), myShip.getBulletY()[i] - (63 * scaleHeight));
+                        args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i], myShip.getBulletY()[i]);
 
                         for (int h = 0; h < alienList.Count; h++)
                         {
-                            if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (70 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (77 * scaleHeight))
+                            if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (130 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (120 * scaleHeight))
                             {
-                                boomX = myShip.getBulletX()[i] - (37 * scaleWidth);
-                                boomY = myShip.getBulletY()[i] - (33 * scaleHeight);
+                                boomX = myShip.getBulletX()[i] - ( 65* scaleWidth);
+                                boomY = myShip.getBulletY()[i] - (120 * scaleHeight);
 
                                 MyScore = MyScore + alienList[h].AlienScore;
 
