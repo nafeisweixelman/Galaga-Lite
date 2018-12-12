@@ -134,20 +134,6 @@
     <None Include="GalagaLite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Images\alien.png" />
-    <Content Include="Assets\Images\background1.jpg" />
-    <Content Include="Assets\Images\background2.jpg" />
-    <Content Include="Assets\Images\beam.jpg" />
-    <Content Include="Assets\Images\boom.JPG" />
-    <Content Include="Assets\Images\enemy.jpg" />
-    <Content Include="Assets\Images\explosion.png" />
-    <Content Include="Assets\Images\galaga_logo.png" />
-    <Content Include="Assets\Images\gameover.png" />
-    <Content Include="Assets\Images\green.png" />
-    <Content Include="Assets\Images\scorescreen.jpg" />
-    <Content Include="Assets\Images\Space Invaders Icon2.png" />
-    <Content Include="Assets\Images\spaceship.png" />
-    <Content Include="Assets\Images\star_background.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -174,6 +160,9 @@
     <PackageReference Include="Win2D.uwp">
       <Version>1.23.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Images\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

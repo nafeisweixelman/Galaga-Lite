@@ -2,35 +2,21 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
 using GalagaLite.Class;
 using Windows.UI;
 using Microsoft.Graphics.Canvas.Text;
-using Windows.Storage;
 using System.Numerics;
 using Windows.System;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace GalagaLite
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public static CanvasBitmap BG, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, SHIP_IMG, MyShip, Boom;
@@ -261,29 +247,45 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
-                GameState = 0;
-                RoundEnded = false;
-                countdown = 6;
+                if (((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
+                {
+                    GameState = 0;
+                    RoundEnded = false;
+                    countdown = 5;
 
-                EnemyTimer.Stop();
-                enemyXPOS.Clear();
-                enemyYPOS.Clear();
-                enemySHIP.Clear();
-                enemyDIR.Clear();
+                    //Stop Enemy Timer
+                    EnemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                    MyScore = 0;
+                }
+
             }
-
             else
             {
-                if (GameState == 0)
+                if (GameState != 2)
                 {
-                    GameState++;
-                    RoundTimer.Start();
-                    EnemyTimer.Start();
+                    if (((float)e.GetPosition(GameCanvas).X > 1102 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1383 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 803 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 870 * scaleHeight)
+                    {
+                        GameState = 1;
+                    }
+
+                    if (((float)e.GetPosition(GameCanvas).X > 258 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 624 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 670 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 805 * scaleHeight)
+                    {
+                        GameState = 0;
+                    }
+
+                    if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
+                    {
+                        GameState = 2;
+                        RoundTimer.Start();
+                        EnemyTimer.Start();
+                    }
                 }
-                else if (GameState > 0)
+                else if (GameState > 1)
                 {
-                    photonXPOSs.Add((float)(ShipXPOS + (MyShip.Bounds.Width * scaleWidth / 2)));
-                    photonYPOSs.Add((float)bounds.Height - (65 * scaleHeight));
                     photonXPOS.Add((float)e.GetPosition(GameCanvas).X);
                     photonYPOS.Add((float)e.GetPosition(GameCanvas).Y);
                     percent.Add(0f);

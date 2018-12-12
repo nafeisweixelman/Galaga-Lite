@@ -10,20 +10,17 @@ namespace GalagaLite.Class
     {
         public static void gamelevel()
         {
-            if (MainPage.RoundEnded == true)
+            if (MainPage.GameState == 0)
             {
-                MainPage.BG = MainPage.ScoreScreen;
+                MainPage.BG = MainPage.StartScreen;
             }
-            else
+            else if (MainPage.GameState == 1)
             {
-                if (MainPage.GameState == 0)
-                {
-                    MainPage.BG = MainPage.StartScreen;
-                }
-                else if (MainPage.GameState == 1)
-                {
-                    MainPage.BG = MainPage.Level1;
-                }
+                MainPage.BG = MainPage.Rules;
+            }
+            else if (MainPage.GameState == 2)
+            {
+                MainPage.BG = MainPage.Level1;
             }
 
         }
