@@ -24,7 +24,7 @@ namespace GalagaLite.Class
             try
             {
                 StorageFile DataFile = await StorageFolder.GetFileAsync(filename);
-                MainPage.STRHighScore = await FileIO.ReadTextAsync(DataFile);
+                MainPage.STRHighScore1 = await FileIO.ReadTextAsync(DataFile);
             }
             catch { }
         }
@@ -32,7 +32,7 @@ namespace GalagaLite.Class
         public static async void UpdateScore()
         {
 
-            if (MainPage.MyScore > Convert.ToInt16(MainPage.STRHighScore))
+            if (MainPage.MyScore > Convert.ToInt16(MainPage.STRHighScore1))
             {
                 try
                 {
@@ -43,6 +43,5 @@ namespace GalagaLite.Class
                 catch { }
             }
         }
-
     }
 }

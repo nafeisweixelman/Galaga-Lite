@@ -136,6 +136,7 @@
     <None Include="GalagaLite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\HighScores.txt" />
     <Content Include="Assets\Images\alien.png" />
     <Content Include="Assets\Images\alien2.png" />
     <Content Include="Assets\Images\background2.png" />

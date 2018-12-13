@@ -38,7 +38,9 @@ namespace GalagaLite
         public static int GameState = 0;
 
         //High Score
-        public static string STRHighScore = "0";
+        public static string STRHighScore1 = "0";
+        public static string STRHighScore2 = "0";
+        public static string STRHighScore3 = "0";
 
         //Round Timers
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
@@ -70,8 +72,8 @@ namespace GalagaLite
             EnemyTimer.Tick += EnemyTimer_Tick;
 
             //Creating the high score file
-            Storage.CreateFile();
-            Storage.ReadFile();
+            //Storage.CreateFile();
+            //Storage.ReadFile();
 
             //64 if half of spaceship.png and 200 is more than 128 to give space below the ship 
             myShip = new Ship((float)bounds.Width / 2 - (64 * scaleWidth), (float)bounds.Height - (200 * scaleHeight));
@@ -128,11 +130,14 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
-                Storage.UpdateScore();
+                //Storage.UpdateScore();
 
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 //Positions the highscore board after game
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
+                args.DrawingSession.DrawText("High Score1: " + Convert.ToInt16(STRHighScore1), (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
+                args.DrawingSession.DrawText("High Score2: " + Convert.ToInt16(STRHighScore2), (float)bounds.Width / 2 + 400, 300, Color.FromArgb(255, 255, 255, 255));
+                args.DrawingSession.DrawText("High Score3: " + Convert.ToInt16(STRHighScore3), (float)bounds.Width / 2 + 400, 400, Color.FromArgb(255, 255, 255, 255));
             }
             else
             {
@@ -143,7 +148,7 @@ namespace GalagaLite
                     // Positions the score board during game
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     // Positions the highscore board during game
-                    args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore), (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    //args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore), (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
                     //Display Enemies
