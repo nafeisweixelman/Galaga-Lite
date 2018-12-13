@@ -5,6 +5,7 @@ namespace GalagaLite.Class
 {
     class Storage
     {
+        //High Score Saving location
         public static string filename = "GalagaLiteHighScore.txt";
         public static StorageFolder StorageFolder = ApplicationData.Current.LocalFolder;
 
