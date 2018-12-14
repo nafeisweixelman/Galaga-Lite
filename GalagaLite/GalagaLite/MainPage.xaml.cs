@@ -30,6 +30,7 @@ namespace GalagaLite
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
+        //To increase aliens, change this and the for loop
         public static int totalEnemies = 5;
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
@@ -81,6 +82,7 @@ namespace GalagaLite
 
         private void EnemyTimer_Tick(object sender, object e)
         {
+            //Change if totalEnemies changes
             for (int a = 0; a < 5; a++)
             {
                 if (totalEnemies > 0)
@@ -98,6 +100,12 @@ namespace GalagaLite
             {
                 RoundTimer.Stop();
                 RoundEnded = true;
+
+                //Resets the enemy number after game over 
+                totalEnemies = 5;
+
+                //Increases number of levels
+                Level += 1;
             }
         }
 
