@@ -23,7 +23,7 @@ namespace GalagaLite
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, Rules, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom;
+        public static CanvasBitmap BG, Rules, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom, Heart;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
@@ -36,6 +36,7 @@ namespace GalagaLite
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
         public static int Level = 1;
+        public static int Health = 3;
         public static int GameState = 0;
 
         //High Score
@@ -131,6 +132,7 @@ namespace GalagaLite
             Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
             Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
             Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
+            Heart = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/lifecount.png"));
         }
         private void GameCanvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
@@ -158,6 +160,16 @@ namespace GalagaLite
                     // Positions the highscore board during game
                     //args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore), (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
+
+                    //Displaying life count
+                    args.DrawingSession.DrawText("Lifes: " , (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    if (Health == 3)
+                    {
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + 450, (float)bounds.Height - 55);
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + 510, (float)bounds.Height - 55);
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + 570, (float)bounds.Height - 55);
+                    }
+
 
                     //Display Enemies
                     for (int j = 0; j < alienList.Count; j++)
