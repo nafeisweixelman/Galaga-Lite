@@ -30,7 +30,7 @@ namespace GalagaLite
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
-        public static int totalEnemies = 3;
+        public static int totalEnemies = 3, holdEnemies = totalEnemies;
         public static bool RoundEnded = false;
         public static int lives = 1;
 
@@ -71,7 +71,7 @@ namespace GalagaLite
 
         private void EnemyTimer_Tick(object sender, object e)
         {
-            for (int a = 0; a < 20; a++)
+            for (int a = 0; a < totalEnemies + 20; a++)
             {
                 if (totalEnemies > 0)
                 {
@@ -191,7 +191,8 @@ namespace GalagaLite
 
                             lives--;
 
-                            alienList.RemoveAt(i);                            
+                            alienList.RemoveAt(i);
+                            
                         }
                     }
                     args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, myShip.ShipYPOS);

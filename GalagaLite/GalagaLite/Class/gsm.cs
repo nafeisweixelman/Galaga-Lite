@@ -32,7 +32,8 @@ namespace GalagaLite.Class
             level++;
             MainPage.GameState = 2;
             MainPage.RoundEnded = false;
-            MainPage.totalEnemies += 5;
+            MainPage.holdEnemies += 5;
+            MainPage.totalEnemies = MainPage.holdEnemies;
 
 
             MainPage.EnemyTimer.Stop();
