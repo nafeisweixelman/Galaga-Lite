@@ -32,8 +32,6 @@ namespace GalagaLite
         public static int boomCount = 60;
         public static int totalEnemies = 3;
         public static bool RoundEnded = false;
-        public static float fleetPOS = 10;
-        public static float fleetDIR = 2;
         public static int lives = 1;
 
         public static int GameState = 0;
@@ -122,8 +120,6 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
-                Storage.UpdateScore();
-
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (36 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2 - 20), 820 * scaleHeight, Colors.White);
                 args.DrawingSession.DrawText("HighScores\n" + Convert.ToInt16(STRHighScore), new Vector2(200, 200), Color.FromArgb(255, 200, 150, 210));
