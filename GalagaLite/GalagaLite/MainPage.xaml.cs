@@ -159,11 +159,9 @@ namespace GalagaLite
 
                     //Displaying life count
                     args.DrawingSession.DrawText("Lifes: " , (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
-                    if (Health == 3)
+                    for(int i = 0; i < Health; i++)
                     {
-                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + 450, (float)bounds.Height - 55);
-                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + 510, (float)bounds.Height - 55);
-                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + 570, (float)bounds.Height - 55);
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (450 + (60 * i)), (float)bounds.Height - 55);
                     }
 
 
