@@ -34,7 +34,7 @@ namespace GalagaLite
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
-        public static int lives=3, level=2;
+        public static int lives=1, level=3;
 
         public static int GameState = 0;
         //High Score
@@ -196,10 +196,11 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
-                if(lives > 1)
+                if(lives > 0 && ((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
                 {
                     level++;
-                    GameState = level;
+                    GameState = 2;
+                    RoundEnded = false;
 
                     EnemyTimer.Stop();
                     enemyXPOS.Clear();
@@ -207,7 +208,7 @@ namespace GalagaLite
                     enemySHIP.Clear();
                     enemyDIR.Clear();
                 }
-                if (((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
+                else if (lives < 1 && ((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
                 {
                     GameState = 0;
                     RoundEnded = false;
@@ -241,7 +242,7 @@ namespace GalagaLite
                         GameState = 2;
                     }
                 }
-                else if (GameState >= 2)
+                else if (GameState == 2)
                 {
                     RoundTimer.Start();
                     EnemyTimer.Start();

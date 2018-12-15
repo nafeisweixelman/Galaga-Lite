@@ -30,18 +30,21 @@ namespace GalagaLite.Class
 
         public static async void UpdateScore()
         {
-
-            if (MainPage.MyScore > Int16.Parse(MainPage.STRHighScore))
+            int highScore = Convert.ToInt16(MainPage.STRHighScore);
+            if (MainPage.MyScore > highScore)
             {
                 try
                 {
-                    StorageFile DataFile = await StorageFolder.GetFileAsync(filename);
-                    await FileIO.WriteTextAsync(DataFile, MainPage.MyScore.ToString());
+                    StorageFile dataFile = await StorageFolder.GetFileAsync("Galaga.txt");
+                    await FileIO.WriteTextAsync(dataFile, MainPage.MyScore.ToString());
                     ReadFile();
                 }
-                catch { }
-            }
-        }
+                catch
+                {
 
+                }
+            }
+
+        }
     }
 }
