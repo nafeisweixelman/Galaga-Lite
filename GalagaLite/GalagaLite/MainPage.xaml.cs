@@ -118,6 +118,7 @@ namespace GalagaLite
         {
             GSM.gameLevel();
             args.DrawingSession.DrawImage(Scaling.img(BG));
+            args.DrawingSession.DrawText("Lives: " + lives.ToString(), new Vector2(200, 200), Colors.Orange);
             if (RoundEnded == true)
             {
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (36 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
@@ -179,17 +180,19 @@ namespace GalagaLite
 
                                 break;
                             }
-                            else if (myShip.ShipXPOS >= alienList[h].AlienXPOS && myShip.ShipXPOS <= alienList[h].AlienXPOS + (70 * scaleWidth) && myShip.ShipYPOS >= alienList[h].AlienYPOS && myShip.ShipYPOS <= alienList[h].AlienYPOS + (77 * scaleHeight))
-                            {
-                                boomX = myShip.ShipXPOS - (37 * scaleWidth);
-                                boomY = myShip.ShipYPOS - (33 * scaleHeight);
-
-                                lives--;
-
-                                alienList.RemoveAt(h);
-                            }
                         }
+                    }
+                    for(int i = 0; i < alienList.Count; i++)
+                    {
+                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (70 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (77 * scaleHeight))
+                        {
+                            boomX = myShip.ShipXPOS;
+                            boomY = myShip.ShipYPOS;
 
+                            lives--;
+
+                            alienList.RemoveAt(i);                            
+                        }
                     }
                     args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, myShip.ShipYPOS);
                 }
