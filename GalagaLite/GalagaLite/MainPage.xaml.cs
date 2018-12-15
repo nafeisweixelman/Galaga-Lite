@@ -34,7 +34,7 @@ namespace GalagaLite
         public static bool RoundEnded = false;
         public static float fleetPOS = 10;
         public static float fleetDIR = 2;
-        public static int lives=1, level=3;
+        public static int lives = 1;
 
         public static int GameState = 0;
         //High Score
@@ -118,7 +118,7 @@ namespace GalagaLite
         }
         private void GameCanvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
-            GSM.gamelevel();
+            GSM.gameLevel();
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
@@ -134,6 +134,7 @@ namespace GalagaLite
                 {
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2, 10, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
+
                     if (boomX > 0 && boomY > 0 && boomCount > 0)
                     {
                         args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
@@ -182,6 +183,15 @@ namespace GalagaLite
 
                                 break;
                             }
+                            else if (myShip.ShipXPOS >= alienList[h].AlienXPOS && myShip.ShipXPOS <= alienList[h].AlienXPOS + (70 * scaleWidth) && myShip.ShipYPOS >= alienList[h].AlienYPOS && myShip.ShipYPOS <= alienList[h].AlienYPOS + (77 * scaleHeight))
+                            {
+                                boomX = myShip.ShipXPOS - (37 * scaleWidth);
+                                boomY = myShip.ShipYPOS - (33 * scaleHeight);
+
+                                lives--;
+
+                                alienList.RemoveAt(h);
+                            }
                         }
 
                     }
@@ -196,30 +206,15 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
+                Storage.UpdateScore();
+
                 if(lives > 0 && ((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
                 {
-                    level++;
-                    GameState = 2;
-                    RoundEnded = false;
-
-                    EnemyTimer.Stop();
-                    enemyXPOS.Clear();
-                    enemyYPOS.Clear();
-                    enemySHIP.Clear();
-                    enemyDIR.Clear();
+                    GSM.nextLevel();
                 }
                 else if (lives < 1 && ((float)e.GetPosition(GameCanvas).X > 735 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1176 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 940 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1005 * scaleHeight)
                 {
-                    GameState = 0;
-                    RoundEnded = false;
-
-                    //Stop Enemy Timer
-                    EnemyTimer.Stop();
-                    enemyXPOS.Clear();
-                    enemyYPOS.Clear();
-                    enemySHIP.Clear();
-                    enemyDIR.Clear();
-                    MyScore = 0;
+                    GSM.endGame();
                 }
 
             }
@@ -244,9 +239,7 @@ namespace GalagaLite
                 }
                 else if (GameState == 2)
                 {
-                    RoundTimer.Start();
-                    EnemyTimer.Start();
-                    Ship.bulletTimer.Start();
+                    GSM.startGame();
                 }
             }
         }

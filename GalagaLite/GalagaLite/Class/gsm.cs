@@ -8,7 +8,9 @@ namespace GalagaLite.Class
 {
     class GSM
     {
-        public static void gamelevel()
+        public static int level = 1;
+
+        public static void gameLevel()
         {
             if (MainPage.GameState == 0)
             {
@@ -23,6 +25,41 @@ namespace GalagaLite.Class
                 MainPage.BG = MainPage.Level1;
             }
 
+        }
+
+        public static void nextLevel()
+        {
+            level++;
+            MainPage.GameState = 2;
+            MainPage.RoundEnded = false;
+
+
+            MainPage.EnemyTimer.Stop();
+            MainPage.enemyXPOS.Clear();
+            MainPage.enemyYPOS.Clear();
+            MainPage.enemySHIP.Clear();
+            MainPage.enemyDIR.Clear();
+        }
+
+        public static void startGame()
+        {
+            MainPage.RoundTimer.Start();
+            MainPage.EnemyTimer.Start();
+            Ship.bulletTimer.Start();
+        }
+
+        public static void endGame()
+        {
+            MainPage.GameState = 0;
+            MainPage.RoundEnded = false;
+
+            //Stop Enemy Timer
+            MainPage.EnemyTimer.Stop();
+            MainPage.enemyXPOS.Clear();
+            MainPage.enemyYPOS.Clear();
+            MainPage.enemySHIP.Clear();
+            MainPage.enemyDIR.Clear();
+            MainPage.MyScore = 0;
         }
 
     }

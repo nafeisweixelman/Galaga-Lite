@@ -63,6 +63,7 @@ namespace GalagaLite.Class
                 fleetDIR = 1;
             }
             AlienXPOS += fleetDIR;
+            AlienYPOS += 3;
         }
 
 
