@@ -74,7 +74,7 @@ namespace GalagaLite
             EnemyTimer.Tick += EnemyTimer_Tick;
 
             //Creating the high score file
-            //Storage.CreateFile();
+           // Storage.CreateFile();
             //Storage.ReadFile();
 
             //64 if half of spaceship.png and 200 is more than 128 to give space below the ship 
@@ -145,9 +145,7 @@ namespace GalagaLite
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 //Positions the highscore board after game
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                args.DrawingSession.DrawText("High Score1: " + Convert.ToInt16(STRHighScore1), (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
-                args.DrawingSession.DrawText("High Score2: " + Convert.ToInt16(STRHighScore2), (float)bounds.Width / 2 + 400, 300, Color.FromArgb(255, 255, 255, 255));
-                args.DrawingSession.DrawText("High Score3: " + Convert.ToInt16(STRHighScore3), (float)bounds.Width / 2 + 400, 400, Color.FromArgb(255, 255, 255, 255));
+                args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore1), (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
             }
             else
             {
