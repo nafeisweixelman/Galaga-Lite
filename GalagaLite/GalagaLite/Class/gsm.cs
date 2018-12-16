@@ -12,18 +12,28 @@ namespace GalagaLite.Class
 
         public static void gameLevel()
         {
-            if (MainPage.GameState == 0)
+            if (MainPage.RoundEnded == true && MainPage.lives < 0)
             {
-                MainPage.BG = MainPage.StartScreen;
+                MainPage.BG = MainPage.ScoreScreen;
             }
-            else if (MainPage.GameState == 1)
-            {
+            else if (MainPage.RoundEnded == true && MainPage.lives > 0)
                 MainPage.BG = MainPage.Rules;
-            }
             else
             {
-                MainPage.BG = MainPage.Level1;
+                if (MainPage.GameState == 0)
+                {
+                    MainPage.BG = MainPage.StartScreen;
+                }
+                else if (MainPage.GameState == 1)
+                {
+                    MainPage.BG = MainPage.Rules;
+                }
+                else
+                {
+                    MainPage.BG = MainPage.Level1;
+                }
             }
+
 
         }
 
@@ -32,7 +42,7 @@ namespace GalagaLite.Class
             level++;
             MainPage.GameState = 2;
             MainPage.RoundEnded = false;
-            MainPage.holdEnemies += 5;
+            MainPage.holdEnemies += 2;
             MainPage.totalEnemies = MainPage.holdEnemies;
 
 
@@ -54,6 +64,11 @@ namespace GalagaLite.Class
         {
             MainPage.GameState = 0;
             MainPage.RoundEnded = false;
+            MainPage.lives = 1;
+            level = 1;
+
+            MainPage.holdEnemies = 3;
+            MainPage.totalEnemies = MainPage.holdEnemies;
 
             //Stop Enemy Timer
             MainPage.EnemyTimer.Stop();

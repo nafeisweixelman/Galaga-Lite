@@ -13,7 +13,7 @@ namespace GalagaLite.Class
         public float AlienYPOS { get; set; }
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOS = 10;
+        public static int fleetPOS = 1;
         public static int fleetDIR = 1;
         /// <summary>
         /// Default constructor for alien class
@@ -63,7 +63,11 @@ namespace GalagaLite.Class
                 fleetDIR = 1;
             }
             AlienXPOS += fleetDIR;
-            //AlienYPOS += 3;
+            if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienYPOS > (MainPage.bounds.Height - 70 * MainPage.scaleHeight))
+                fleetPOS = -1;
+            if (MainPage.alienList[0].AlienYPOS < 10)
+                fleetPOS = 1;
+            AlienYPOS += fleetPOS;
         }
 
 
