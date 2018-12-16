@@ -142,10 +142,12 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
-                CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
-                //Positions the highscore board after game
-                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                args.DrawingSession.DrawText("High Score: " + Storage.highScore.ToString(), (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
+                //Positions the round score after game
+                CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession,"Score\n" + MyScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                //Positions the current high score after game
+                CanvasTextLayout textLayout2 = new CanvasTextLayout(args.DrawingSession, "High Score\n" + Storage.highScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
+                args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
             }
             else
             {
@@ -153,10 +155,8 @@ namespace GalagaLite
                 {
                     //Positions the level number during game
                     args.DrawingSession.DrawText("Level: " + Level.ToString(), (float)bounds.Width / 2 - 440, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
-                    // Positions the score board during game
+                    //Positions the score board during game
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
-                    // Positions the highscore board during game
-                    //args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore), (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
                     //Displaying life count
