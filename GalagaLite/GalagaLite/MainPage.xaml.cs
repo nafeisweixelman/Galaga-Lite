@@ -105,6 +105,8 @@ namespace GalagaLite
 
                 //Increases number of levels
                 Level += 1;
+
+                //Decrease health to test score screens
                 Health -= 1;
             }
         }
@@ -266,13 +268,6 @@ namespace GalagaLite
                 if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
                 {
                     RoundEnded = false;
-
-                    //Stop Enemy Timer
-                    EnemyTimer.Stop();
-                    enemyXPOS.Clear();
-                    enemyYPOS.Clear();
-                    enemySHIP.Clear();
-                    enemyDIR.Clear();
                 }
             }
             else{
