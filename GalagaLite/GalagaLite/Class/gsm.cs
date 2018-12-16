@@ -14,10 +14,10 @@ namespace GalagaLite.Class
         {
             if (MainPage.RoundEnded == true && MainPage.lives < 0)
             {
-                MainPage.BG = MainPage.ScoreScreen;
+                MainPage.BG = MainPage.GameOver;
             }
             else if (MainPage.RoundEnded == true && MainPage.lives > 0)
-                MainPage.BG = MainPage.Rules;
+                MainPage.BG = MainPage.Continue;
             else
             {
                 if (MainPage.GameState == 0)
