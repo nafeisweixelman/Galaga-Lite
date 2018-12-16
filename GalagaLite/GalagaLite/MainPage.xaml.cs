@@ -138,8 +138,6 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
-                Storage.UpdateScore();
-
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 //Positions the highscore board after game
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
