@@ -55,9 +55,7 @@ namespace GalagaLite.Class
                     ReadFile();
                 }
                 catch
-                {
-
-                }
+                { }
             }
         }
     }

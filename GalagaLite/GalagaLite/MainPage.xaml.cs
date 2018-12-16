@@ -162,7 +162,6 @@ namespace GalagaLite
                         args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (450 + (60 * i)), (float)bounds.Height - 55);
                     }
 
-
                     //Display Enemies
                     for (int j = 0; j < alienList.Count; j++)
                     {
