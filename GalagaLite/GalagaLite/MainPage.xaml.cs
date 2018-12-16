@@ -32,8 +32,6 @@ namespace GalagaLite
         public static int boomCount = 60;
         public static int totalEnemies = 5;
         public static bool RoundEnded = false;
-        public static float fleetPOS = 10;
-        public static float fleetDIR = 2;
         public static int Level = 1;
         public static int GameState = 0;
 
@@ -50,12 +48,9 @@ namespace GalagaLite
         //Lists (Enemies)
         public static List<float> enemyXPOS = new List<float>();
         public static List<float> enemyYPOS = new List<float>();
-        public static List<int> enemySHIP = new List<int>();
-        public static List<string> enemyDIR = new List<string>();
         public static List<Alien> alienList = new List<Alien>();
-        public static Boolean leftMovement = false;
-        public static Boolean rightMovement = false;
-        public static Boolean shoot = false;
+
+        public Random AlienAttackRand = new Random();
 
         public MainPage()
         {
@@ -68,6 +63,7 @@ namespace GalagaLite
             RoundTimer.Interval = new TimeSpan(0, 0, 1);
 
             EnemyTimer.Tick += EnemyTimer_Tick;
+            EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, AlienAttackRand.Next(2000, 3000));
 
             //Creating the high score file
             Storage.CreateFile();
@@ -75,10 +71,7 @@ namespace GalagaLite
 
             //64 if half of spaceship.png and 200 is more than 128 to give space below the ship 
             myShip = new Ship((float)bounds.Width / 2 - (64 * scaleWidth), (float)bounds.Height - (200 * scaleHeight));
-        }
-
-        private void EnemyTimer_Tick(object sender, object e)
-        {
+            //creating aliens
             for (int a = 0; a < 5; a++)
             {
                 if (totalEnemies > 0)
@@ -89,6 +82,12 @@ namespace GalagaLite
 
                 totalEnemies -= 1;
             }
+        }
+
+        private void EnemyTimer_Tick(object sender, object e)
+        {
+            int AlienAttack = AlienAttackRand.Next(0, alienList.Count);
+            alienList[AlienAttack].AlienYPOS += 10;
         }
         private void RoundTimer_Tick(object sender, object e)
         {
@@ -221,8 +220,6 @@ namespace GalagaLite
                     EnemyTimer.Stop();
                     enemyXPOS.Clear();
                     enemyYPOS.Clear();
-                    enemySHIP.Clear();
-                    enemyDIR.Clear();
                     MyScore = 0;
                 }
             }

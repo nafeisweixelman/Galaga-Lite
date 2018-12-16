@@ -11,6 +11,7 @@ namespace GalagaLite.Class
     {
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
+        public float SetYPOS;
         public int AlienScore { get; set; }
         public int AlienType { get; }
         public static int fleetPOS = 10;
@@ -32,7 +33,8 @@ namespace GalagaLite.Class
         public Alien(float x, float y, int type)
         {
             AlienXPOS = x;
-            AlienYPOS = y;
+            AlienYPOS = y - 100;
+            SetYPOS = y;
             AlienType = type;
             switch (type)
             {
@@ -63,6 +65,18 @@ namespace GalagaLite.Class
                 fleetDIR = 1;
             }
             AlienXPOS += fleetDIR;
+            if(AlienYPOS >= SetYPOS + 5 || AlienYPOS <= SetYPOS - 5)
+            {
+                AlienYPOS += 2;
+            }
+            else
+            {
+                AlienYPOS = SetYPOS;
+            }
+            if(AlienYPOS > MainPage.bounds.Height)
+            {
+                AlienYPOS = -40;
+            }
         }
 
 
