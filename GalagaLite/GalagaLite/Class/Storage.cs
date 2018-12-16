@@ -35,17 +35,17 @@ namespace GalagaLite.Class
                 var size = basicProperties.Size;
 
                 if (size == 0)
-                    await FileIO.WriteTextAsync(DataFile, "0");
+                    await FileIO.WriteTextAsync(DataFile, MainPage.MyScore.ToString());
 
                 MainPage.STRHighScore = await FileIO.ReadTextAsync(DataFile);
+
+                highScore = Convert.ToInt16(MainPage.STRHighScore);
             }
             catch { }
         }
 
         public static async void UpdateScore()
         {
-            highScore = Convert.ToInt16(MainPage.STRHighScore);
-
             if (MainPage.MyScore > highScore)
             {
                 try

@@ -143,6 +143,8 @@
     <Content Include="Assets\Images\background2edit.png" />
     <Content Include="Assets\Images\beam.png" />
     <Content Include="Assets\Images\boom.png" />
+    <Content Include="Assets\Images\enemy1.JPG" />
+    <Content Include="Assets\Images\enemy2.JPG" />
     <Content Include="Assets\Images\galaga_logo.png" />
     <Content Include="Assets\Images\lifecount.png" />
     <Content Include="Assets\Images\rules.png" />
