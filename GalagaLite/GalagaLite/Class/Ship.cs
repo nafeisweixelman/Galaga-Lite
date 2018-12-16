@@ -106,7 +106,7 @@ namespace GalagaLite.Class
                     BulletXPOS.Add(ShipXPOS + (52 * MainPage.scaleWidth));
                     BulletYPOS.Add(ShipYPOS);
 
-                    shootWait = 10; //limiting firing to half a second
+                    shootWait = 7; //limiting firing to half a second
                 }
             }
         }

@@ -153,6 +153,8 @@ namespace GalagaLite
             {
                 if (GameState > 1)
                 {
+                    Storage.UpdateScore();
+
                     //Positions the level number during game
                     args.DrawingSession.DrawText("Level: " + Level.ToString(), (float)bounds.Width / 2 - 440, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     //Positions the score board during game
@@ -230,34 +232,68 @@ namespace GalagaLite
         private void GameCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (RoundEnded == true)
+            {
+                //Allows both buttons to be pressed when you have health
+                if (MainPage.BG == MainPage.Continue)
                 {
-                //Button pixel positions on the gameoveredit.png for return to start
-                if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
-                {
-                    RoundEnded = false;
+                    //Button pixel positions on the gameoveredit.png for continue
+                    if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
+                    {
+                        RoundEnded = false;
+                        GameState = 2;
+                        RoundTimer.Start();
+                        EnemyTimer.Start();
+                        Ship.bulletTimer.Start();
+                    }
+                    //Button pixel positions on the gameoveredit.png for return to start
+                    if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
+                    {
+                        RoundEnded = false;
 
-                    //Stop Enemy Timer
-                    EnemyTimer.Stop();
-                    enemyXPOS.Clear();
-                    enemyYPOS.Clear();
-                    enemySHIP.Clear();
-                    enemyDIR.Clear();
-                    MyScore = 0;
-                    GameState = 0;
+                        //Stop Enemy Timer
+                        EnemyTimer.Stop();
+                        enemyXPOS.Clear();
+                        enemyYPOS.Clear();
+                        enemySHIP.Clear();
+                        enemyDIR.Clear();
+                        MyScore = 0;
+                        GameState = 0;
 
-                    //Resets health
-                    Health = 3;
+                        //Resets health
+                        Health = 3;
 
-                    //Resets level count
-                    Level = 1;
+                        //Resets level count
+                        Level = 1;
+                    }
                 }
-                //Button pixel positions on the gameoveredit.png for continue
-                else if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
+
+                //Limits movement to only click on return to start from gameover screen
+                else if (MainPage.BG == MainPage.GameOver)
                 {
-                    RoundEnded = false;
+                    //Button pixel positions on the gameoveredit.png for return to start
+                    if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
+                    {
+                        RoundEnded = false;
+
+                        //Stop Enemy Timer
+                        EnemyTimer.Stop();
+                        enemyXPOS.Clear();
+                        enemyYPOS.Clear();
+                        enemySHIP.Clear();
+                        enemyDIR.Clear();
+                        MyScore = 0;
+                        GameState = 0;
+
+                        //Resets health
+                        Health = 3;
+
+                        //Resets level count
+                        Level = 1;
+                    }
                 }
             }
-            else{
+            else 
+            {
                 if (GameState != 2)
                 {
                     //Button pixel positions on the startedit.png for the how to play button

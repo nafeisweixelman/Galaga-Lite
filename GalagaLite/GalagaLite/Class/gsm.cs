@@ -10,13 +10,13 @@ namespace GalagaLite.Class
     {
         public static void gamelevel()
         {
-            if ((MainPage.RoundEnded == true) && (MainPage.Health == 0))
+            if ((MainPage.RoundEnded == true) && (MainPage.Health != 0))
             {
-                MainPage.BG = MainPage.GameOver;
+                MainPage.BG = MainPage.Continue;
             }
             else if (MainPage.RoundEnded == true)
             {
-                MainPage.BG = MainPage.Continue;
+                MainPage.BG = MainPage.GameOver;
             }
             else
             {
@@ -33,8 +33,6 @@ namespace GalagaLite.Class
                     MainPage.BG = MainPage.Level1;
                 }
             }
-
         }
-
     }
 }
