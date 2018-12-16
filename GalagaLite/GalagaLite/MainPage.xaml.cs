@@ -23,7 +23,7 @@ namespace GalagaLite
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, Rules, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom, Heart;
+        public static CanvasBitmap BG, Rules, StartScreen, Level1, GameOver, Continue, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom, Heart;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
@@ -105,6 +105,7 @@ namespace GalagaLite
 
                 //Increases number of levels
                 Level += 1;
+                Health -= 1;
             }
         }
 
@@ -121,10 +122,11 @@ namespace GalagaLite
 
         async Task CreateResourcesAsync(CanvasControl sender)
         {
-            StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/galaga_logo.png"));
+            StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/startedit.png"));
             Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2edit.png"));
-            ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/scorescreenedit.png"));
-            Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rules.png"));
+            Continue = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/continueedit.png"));
+            GameOver = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameoveredit.png"));
+            Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rulesedit.png"));
             Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/beam.png"));
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
             Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
@@ -161,7 +163,6 @@ namespace GalagaLite
                     {
                         args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (450 + (60 * i)), (float)bounds.Height - 55);
                     }
-
 
                     //Display Enemies
                     for (int j = 0; j < alienList.Count; j++)
@@ -226,12 +227,31 @@ namespace GalagaLite
 
         private void GameCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            //If live count goes to 0
+            /* if ((RoundEnded == true) && (Health == 0))
+             {
+                 //Button pixel positions on the gameoveredit.png
+                 if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
+                 {
+                     GameState = 0;
+                     RoundEnded = false;
+
+                     //Stop Enemy Timer
+                     EnemyTimer.Stop();
+                     enemyXPOS.Clear();
+                     enemyYPOS.Clear();
+                     enemySHIP.Clear();
+                     enemyDIR.Clear();
+                     MyScore = 0;
+                 }
+             }
+             //If they still have lives
+             else*/
             if (RoundEnded == true)
-            {
-                //Button pixel positions on the scorescreen.png
-                if (((float)e.GetPosition(GameCanvas).X > 619 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1300 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 969 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1038 * scaleHeight)
                 {
-                    GameState = 0;
+                //Button pixel positions on the gameoveredit.png for return to start
+                if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
+                {
                     RoundEnded = false;
 
                     //Stop Enemy Timer
@@ -242,25 +262,36 @@ namespace GalagaLite
                     enemyDIR.Clear();
                     MyScore = 0;
                 }
+                //Button pixel positions on the gameoveredit.png for continue
+                if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
+                {
+                    RoundEnded = false;
+
+                    //Stop Enemy Timer
+                    EnemyTimer.Stop();
+                    enemyXPOS.Clear();
+                    enemyYPOS.Clear();
+                    enemySHIP.Clear();
+                    enemyDIR.Clear();
+                }
             }
-            else
-            {
+            else{
                 if (GameState != 2)
                 {
-                    //Button pixel positions on the galaga_logo.png for the how to play button
-                    if (((float)e.GetPosition(GameCanvas).X > 1102 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1383 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 803 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 870 * scaleHeight)
+                    //Button pixel positions on the startedit.png for the how to play button
+                    if (((float)e.GetPosition(GameCanvas).X > 768 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1152 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 723 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 831 * scaleHeight)
                     {
                         GameState = 1;
                     }
 
-                    //Button pixel positions on the rules.png
-                    if (((float)e.GetPosition(GameCanvas).X > 258 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 624 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 670 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 805 * scaleHeight)
+                    //Button pixel positions on the rulesedit.png
+                    if (((float)e.GetPosition(GameCanvas).X > 1417 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1836 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 907 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1015 * scaleHeight)
                     {
                         GameState = 0;
                     }
 
-                    //Button pixel positions on the galaga_logo.png for the start game button
-                    if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
+                    //Button pixel positions on the startedit.png for the start game button
+                    if (((float)e.GetPosition(GameCanvas).X > 270 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 656 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 479 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 589 * scaleHeight)
                     {
                         GameState = 2;
                         RoundTimer.Start();
