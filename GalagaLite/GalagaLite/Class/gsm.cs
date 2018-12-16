@@ -28,10 +28,6 @@ namespace GalagaLite.Class
                 {
                     MainPage.BG = MainPage.Rules;
                 }
-                /*else if (MainPage.GameState == 2)
-                {
-                    MainPage.BG = MainPage.Continue;
-                }*/
                 else if (MainPage.GameState == 2)
                 {
                     MainPage.BG = MainPage.Level1;

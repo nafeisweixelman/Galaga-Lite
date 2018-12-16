@@ -229,26 +229,6 @@ namespace GalagaLite
 
         private void GameCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //If live count goes to 0
-            /* if ((RoundEnded == true) && (Health == 0))
-             {
-                 //Button pixel positions on the gameoveredit.png
-                 if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
-                 {
-                     GameState = 0;
-                     RoundEnded = false;
-
-                     //Stop Enemy Timer
-                     EnemyTimer.Stop();
-                     enemyXPOS.Clear();
-                     enemyYPOS.Clear();
-                     enemySHIP.Clear();
-                     enemyDIR.Clear();
-                     MyScore = 0;
-                 }
-             }
-             //If they still have lives
-             else*/
             if (RoundEnded == true)
                 {
                 //Button pixel positions on the gameoveredit.png for return to start
@@ -263,6 +243,13 @@ namespace GalagaLite
                     enemySHIP.Clear();
                     enemyDIR.Clear();
                     MyScore = 0;
+                    GameState = 0;
+
+                    //Resets health
+                    Health = 3;
+
+                    //Resets level count
+                    Level = 1;
                 }
                 //Button pixel positions on the gameoveredit.png for continue
                 if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
