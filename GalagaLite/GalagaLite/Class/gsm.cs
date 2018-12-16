@@ -12,7 +12,7 @@ namespace GalagaLite.Class
 
         public static void gameLevel()
         {
-            if (MainPage.RoundEnded == true && MainPage.lives < 0)
+            if (MainPage.RoundEnded == true && MainPage.lives == 0)
             {
                 MainPage.BG = MainPage.GameOver;
             }
