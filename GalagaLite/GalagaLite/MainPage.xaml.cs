@@ -13,6 +13,8 @@ using GalagaLite.Class;
 using Windows.UI;
 using Microsoft.Graphics.Canvas.Text;
 using System.Numerics;
+using System.Diagnostics;
+using System.Threading;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -29,10 +31,10 @@ namespace GalagaLite
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
-        public static int boomCount = 60;
-        public static int totalEnemies = 3, holdEnemies = totalEnemies;
+        public static int boomCount = 60, count = 1;
         public static bool RoundEnded = false;
-        public static int lives = 1;
+        public static int lives = 1, liveScore = 0;
+        public static Boolean firstBonus = true;
 
         public static int GameState = 0;
         //High Score
@@ -44,14 +46,7 @@ namespace GalagaLite
         public static Ship myShip;
 
         //Lists (Enemies)
-        public static List<float> enemyXPOS = new List<float>();
-        public static List<float> enemyYPOS = new List<float>();
-        public static List<int> enemySHIP = new List<int>();
-        public static List<string> enemyDIR = new List<string>();
         public static List<Alien> alienList = new List<Alien>();
-        public static Boolean leftMovement = false;
-        public static Boolean rightMovement = false;
-        public static Boolean shoot = false;
 
         public MainPage()
         {
@@ -74,15 +69,15 @@ namespace GalagaLite
 
         private void EnemyTimer_Tick(object sender, object e)
         {
-            for (int a = 0; a < totalEnemies + 20; a++)
+            for (int a = 0; a < GSM.holdEnemies; a++)
             {
-                if (totalEnemies > 0)
+                if (GSM.totalEnemies > 0)
                 {
                     Alien myAlien = new Alien((90 * a * scaleHeight), (50 + scaleHeight), 1);
                     alienList.Add(myAlien);
                 }
 
-                totalEnemies -= 1;
+                GSM.totalEnemies -= 1;
             }
         }
         private void RoundTimer_Tick(object sender, object e)
@@ -125,7 +120,7 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
-                if (lives < 0)
+                if (lives < 0 || count == 0)
                     Storage.UpdateScore();
 
                 Storage.ReadFile();
@@ -199,9 +194,22 @@ namespace GalagaLite
                                 boomY = myShip.getBulletY()[i] - (91 * scaleHeight);
 
                                 MyScore = MyScore + alienList[h].AlienScore;
+                                liveScore = liveScore + alienList[h].AlienScore;
 
                                 alienList.RemoveAt(h);
                                 myShip.removeBullet(i);
+
+                                if (liveScore >= 130000 && firstBonus == false)
+                                {
+
+                                    liveScore -= 130000;
+                                    lives++;
+                                }
+                                else if(liveScore >= 65000 && firstBonus == true)
+                                {
+                                    firstBonus = false;
+                                    lives++;
+                                }
 
                                 break;
                             }
@@ -214,10 +222,14 @@ namespace GalagaLite
                             boomX = myShip.ShipXPOS;
                             boomY = myShip.ShipYPOS;
 
-                            lives--;
-
                             alienList.RemoveAt(i);
 
+                            lives--;
+
+                            if(lives == 0)
+                            {
+                                GSM.endGame();
+                            }
                         }
                     }
                     args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, myShip.ShipYPOS);
@@ -237,6 +249,7 @@ namespace GalagaLite
                 }
                 else if (lives < 1 || (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight))
                 {
+                    count = 0;
                     GSM.endGame();
                 }
             }
@@ -259,6 +272,7 @@ namespace GalagaLite
                     if (((float)e.GetPosition(GameCanvas).X > 270 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 656 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 479 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 589 * scaleHeight)
                     {
                         GameState = 2;
+                        GSM.startGame();
                     }
                 }
                 else if (GameState == 2)

@@ -9,6 +9,7 @@ namespace GalagaLite.Class
     class GSM
     {
         public static int level = 1;
+        public static int totalEnemies = 3, holdEnemies = totalEnemies;
 
         public static void gameLevel()
         {
@@ -33,7 +34,7 @@ namespace GalagaLite.Class
                     MainPage.BG = MainPage.Level1;
                 }
             }
-
+            
 
         }
 
@@ -42,15 +43,12 @@ namespace GalagaLite.Class
             level++;
             MainPage.GameState = 2;
             MainPage.RoundEnded = false;
-            MainPage.holdEnemies += 2;
-            MainPage.totalEnemies = MainPage.holdEnemies;
+            if(level <= 5)
+                holdEnemies += 2;
+            totalEnemies = holdEnemies;
 
 
             MainPage.EnemyTimer.Stop();
-            MainPage.enemyXPOS.Clear();
-            MainPage.enemyYPOS.Clear();
-            MainPage.enemySHIP.Clear();
-            MainPage.enemyDIR.Clear();
         }
 
         public static void startGame()
@@ -66,16 +64,13 @@ namespace GalagaLite.Class
             MainPage.RoundEnded = false;
             MainPage.lives = 1;
             level = 1;
+            MainPage.count = 1;
 
-            MainPage.holdEnemies = 3;
-            MainPage.totalEnemies = MainPage.holdEnemies;
+            holdEnemies = 3;
+            totalEnemies = holdEnemies;
 
             //Stop Enemy Timer
             MainPage.EnemyTimer.Stop();
-            MainPage.enemyXPOS.Clear();
-            MainPage.enemyYPOS.Clear();
-            MainPage.enemySHIP.Clear();
-            MainPage.enemyDIR.Clear();
             MainPage.MyScore = 0;
         }
 
