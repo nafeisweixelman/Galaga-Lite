@@ -94,8 +94,8 @@ namespace GalagaLite.Class
             MainPage.GameState = 0;
             MainPage.RoundEnded = false;
             Storage.update = false;
-            MainPage.lives = 1;
-            level = 3;
+            MainPage.lives = 3;
+            level = 1;
 
             Alien.fleetDIRL = -3;
             Alien.fleetDIRR = 3;

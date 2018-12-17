@@ -17,8 +17,8 @@ namespace GalagaLite.Class
         public static int fleetPOSD = -3;
         public static int fleetDIRR = 3;
         public static int fleetDIRL = -3;
-        public static int fleetDIR  = 1;
-        public static int fleetPOS = 1;
+        public static int fleetDIR  = 3;
+        public static int fleetPOS = 3;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>

@@ -148,7 +148,8 @@ namespace GalagaLite
             //additional things to draw if the game is over
             if (RoundEnded == true)
             {
-                Storage.UpdateScore();
+                if (lives == 0)
+                    Storage.UpdateScore();
                 //When a new Highscore is reached
                 if (Storage.update == true)
                 {
@@ -304,7 +305,7 @@ namespace GalagaLite
                     //returns to start screen on the Continue screen
                     else if (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
                     {
-                        GSM.endGame();
+                        lives = 0;
                     }
                 }
                 else if (lives == 0)
