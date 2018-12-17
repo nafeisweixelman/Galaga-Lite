@@ -13,8 +13,8 @@ namespace GalagaLite.Class
         public float AlienYPOS { get; set; }
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOS = 1;
-        public static int fleetDIR = 1;
+        public static float fleetPOS = 1;
+        public static float fleetDIR = 1;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>

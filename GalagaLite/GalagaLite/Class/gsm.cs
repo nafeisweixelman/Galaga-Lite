@@ -11,6 +11,9 @@ namespace GalagaLite.Class
         public static int level = 1;
         public static int totalEnemies = 3, holdEnemies = totalEnemies;
 
+        /// <summary>
+        /// Sets up the background of the levels based on gamestates
+        /// </summary>
         public static void gameLevel()
         {
             if (MainPage.RoundEnded == true && MainPage.lives == 0)
@@ -38,6 +41,12 @@ namespace GalagaLite.Class
 
         }
 
+        /// <summary>
+        /// When the button is clicked to continue increases level, increases enemies,
+        /// stops the enemy and round timers, resets gamestate to 2 and roundEnded to false
+        /// and calls start game to restart timers
+        /// 
+        /// </summary>
         public static void nextLevel()
         {
             level++;
@@ -47,13 +56,15 @@ namespace GalagaLite.Class
                 holdEnemies += 2;
             totalEnemies = holdEnemies;
 
-            MainPage.alienList.Clear();
             MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
 
             startGame();
         }
 
+        /// <summary>
+        /// Starts the timers
+        /// </summary>
         public static void startGame()
         {
             MainPage.RoundTimer.Start();
@@ -61,28 +72,22 @@ namespace GalagaLite.Class
             Ship.bulletTimer.Start();
         }
 
-        public static void pauseGame()
-        {
-            if (MainPage.count == 2)
-                nextLevel();
-            else if (MainPage.count == 0)
-                endGame();
-        }
-
+        /// <summary>
+        /// Stops all timers, resets all initial conditions and clears
+        /// any enemy ships that were left when the game ended
+        /// </summary>
         public static void endGame()
         {
             MainPage.GameState = 0;
             MainPage.RoundEnded = false;
             MainPage.lives = 1;
             level = 1;
-            MainPage.count = 1;
 
             holdEnemies = 3;
             totalEnemies = holdEnemies;
 
             MainPage.alienList.Clear();
             MainPage.RoundTimer.Stop();
-            //Stop Enemy Timer
             MainPage.EnemyTimer.Stop();
             MainPage.MyScore = 0;
         }
