@@ -136,22 +136,16 @@
     <None Include="GalagaLite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\HighScores.txt" />
     <Content Include="Assets\Images\alien.png" />
     <Content Include="Assets\Images\alien2.png" />
-    <Content Include="Assets\Images\background2.png" />
     <Content Include="Assets\Images\background2edit.png" />
     <Content Include="Assets\Images\beam.png" />
     <Content Include="Assets\Images\boom.png" />
     <Content Include="Assets\Images\continueedit.png" />
-    <Content Include="Assets\Images\enemy1.JPG" />
-    <Content Include="Assets\Images\enemy2.JPG" />
-    <Content Include="Assets\Images\galaga_logo.png" />
     <Content Include="Assets\Images\gameoveredit.png" />
     <Content Include="Assets\Images\lifecount.png" />
-    <Content Include="Assets\Images\rules.png" />
     <Content Include="Assets\Images\rulesedit.png" />
-    <Content Include="Assets\Images\scorescreen.png" />
-    <Content Include="Assets\Images\scorescreenedit.png" />
     <Content Include="Assets\Images\spaceship.png" />
     <Content Include="Assets\Images\startedit.png" />
     <Content Include="Properties\Default.rd.xml" />
