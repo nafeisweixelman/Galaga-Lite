@@ -103,7 +103,7 @@ namespace GalagaLite.Class
                 if (shootWait == 0)
                 {
                     //adding bullet at top center of space ship
-                    BulletXPOS.Add(ShipXPOS + (52 * MainPage.scaleWidth));
+                    BulletXPOS.Add(ShipXPOS + (46 * MainPage.scaleWidth));
                     BulletYPOS.Add(ShipYPOS);
 
                     shootWait = 10; //limiting firing to half a second

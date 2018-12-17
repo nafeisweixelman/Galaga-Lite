@@ -48,6 +48,7 @@ namespace GalagaLite
 
         //Lists (Enemies)
         public static List<Alien> alienList = new List<Alien>();
+        public Random AlienAttackRand = new Random();
 
         /// <summary>
         /// Constructor to intialize all timers and to create files
@@ -63,6 +64,7 @@ namespace GalagaLite
             RoundTimer.Interval = new TimeSpan(0, 0, 1);
 
             EnemyTimer.Tick += EnemyTimer_Tick;
+            EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, AlienAttackRand.Next(2000, 3000));
 
             Storage.CreateFile();
             Storage.ReadFile();
@@ -77,15 +79,10 @@ namespace GalagaLite
         /// <param name="e"></param>
         private void EnemyTimer_Tick(object sender, object e)
         {
-            for (int a = 0; a < GSM.holdEnemies; a++)
+            if (alienList.Count > 0)
             {
-                if (GSM.totalEnemies > 0)
-                {
-                    Alien myAlien = new Alien((90 * a * scaleHeight), (50 + scaleHeight), 1);
-                    alienList.Add(myAlien);
-                }
-
-                GSM.totalEnemies -= 1; //decrements the total of enemies so as to keep track of how many are drawn
+                int AlienAttack = AlienAttackRand.Next(0, alienList.Count);
+                alienList[AlienAttack].AlienYPOS += 10;
             }
         }
 
@@ -149,6 +146,7 @@ namespace GalagaLite
         {
             GSM.gameLevel();                                        //intializes the backgrounds
             args.DrawingSession.DrawImage(Scaling.img(BG));         //draws the backgrounds
+            Alien.createAliens();
 
             //additional things to draw if the game is over
             if (RoundEnded == true)
@@ -160,22 +158,26 @@ namespace GalagaLite
                 {
                     Storage.ReadFile();
 
-                    CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
-                    //Positions the highscore board after game
-                    args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawText("NEW HIGH SCORE!!!! \nHigh Score: " + Storage.STRHighScore, (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
+                    CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, "Score\n" + MyScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    //Positions the current high score after game
+                    CanvasTextLayout textLayout2 = new CanvasTextLayout(args.DrawingSession, "High Score\n" + Storage.highScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    CanvasTextLayout textLayout3 = new CanvasTextLayout(args.DrawingSession, "NEW HIGHSCORE!!!!!", new CanvasTextFormat() { FontSize = (50 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
+                    args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
+                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 160, 50 * scaleHeight, Colors.Red);
                 }
                 //Every other time
                 else
                 {
                     Storage.ReadFile();
 
-                    CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
-                    //Positions the highscore board after game
-                    args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
+                    CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, "Score\n" + MyScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    //Positions the current high score after game
+                    CanvasTextLayout textLayout2 = new CanvasTextLayout(args.DrawingSession, "High Score\n" + Storage.highScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
+                    args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
                 }
-            
+
             }
             else
             {
@@ -254,7 +256,7 @@ namespace GalagaLite
                                     lives++;
                                     liveScore -= 130000;
                                 }
-                                else if(liveScore >= 65000 && firstBonus == true)
+                                else if (liveScore >= 65000 && firstBonus == true)
                                 {
                                     lives++;
                                     firstBonus = false;
@@ -276,7 +278,7 @@ namespace GalagaLite
 
                             lives--;
 
-                            if(lives == 0)
+                            if (lives == 0)
                             {
                                 RoundEnded = true;
                             }
@@ -306,7 +308,7 @@ namespace GalagaLite
                     //Continues game on the Continue screen
                     if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
                         GSM.nextLevel();
-                   
+
                     //returns to start screen on the Continue screen
                     else if (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
                     {

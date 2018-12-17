@@ -66,7 +66,7 @@ namespace GalagaLite.Class
                 {
                     await FileIO.WriteTextAsync(DataFile, MainPage.MyScore.ToString());
                 }
-                catch {}
+                catch { }
 
                 update = true;
             }
