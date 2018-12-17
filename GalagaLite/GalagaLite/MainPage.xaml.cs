@@ -157,8 +157,8 @@ namespace GalagaLite
                     CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                     //Positions the highscore board after game
                     args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawText("NEW HIGH SCORE !!!!!", (float)bounds.Width / 2 + 400, 150, Colors.Red);
                     args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("NEW HIGH SCORE !!!!!", (float)bounds.Width / 2 + 400, 150, Colors.Red);
                 }
                 //Every other time
                 else

@@ -54,8 +54,17 @@ namespace GalagaLite.Class
             MainPage.RoundEnded = false;
             if(level <= 5)
                 holdEnemies += 2;
+            if(level % 5 == 0)
+            {
+                Alien.fleetDIRL -= 1;
+                Alien.fleetDIRR += 1;
+                Alien.fleetPOSD -= 1;
+                Alien.fleetPOSU += 1;
+            }
             totalEnemies = holdEnemies;
 
+            MainPage.myShip.BulletXPOS.Clear();
+            MainPage.myShip.BulletYPOS.Clear();
             MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
 
@@ -86,6 +95,8 @@ namespace GalagaLite.Class
             holdEnemies = 3;
             totalEnemies = holdEnemies;
 
+            MainPage.myShip.BulletXPOS.Clear();
+            MainPage.myShip.BulletYPOS.Clear();
             MainPage.alienList.Clear();
             MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();

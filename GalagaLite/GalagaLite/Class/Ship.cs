@@ -45,7 +45,7 @@ namespace GalagaLite.Class
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.KeyUp += CoreWindow_KeyUp;
             bulletTimer.Tick += bulletTimer_Tick;
-            bulletTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            bulletTimer.Interval = new TimeSpan(0, 0, 0, 0, 0);
         }
         /// <summary>
         /// shootWait int variable deincremented to limit amount of shots per second
