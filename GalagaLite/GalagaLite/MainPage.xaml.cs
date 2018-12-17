@@ -1,3 +1,10 @@
+/*
+ * Because we had no idea where to start with this project we did a little bit of research and came upon a youtube video
+ * to help us get started. https://www.youtube.com/watch?v=XrVvoay7afg&list=PL9MEkPNM4g8VypAr9Z9wvCdvd8A9lsDtO is a very
+ * primitive space shooter game and although there may be parts that are similar such as the scaling it was not good enough
+ * for us to use in general. However, it did give us a good starting point and helped us to better understand the concepts
+ * behind each of the methods in the xaml page and we were able to adjust those methods to better suit or needs. 
+ */
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System;
@@ -12,8 +19,6 @@ using Windows.UI.Core;
 using GalagaLite.Class;
 using Windows.UI;
 using Microsoft.Graphics.Canvas.Text;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace GalagaLite
 {
@@ -244,12 +249,12 @@ namespace GalagaLite
                                 myShip.removeBullet(i);
 
                                 //If not the first time receiving a bonus life then life is incremented every 1300000 points
-                                if (liveScore >= 65000 && firstBonus == false)
+                                if (liveScore >= 130000 && firstBonus == false)
                                 {
                                     lives++;
-                                    liveScore -= 65000;
+                                    liveScore -= 130000;
                                 }
-                                else if(liveScore >= 32500 && firstBonus == true)
+                                else if(liveScore >= 65000 && firstBonus == true)
                                 {
                                     lives++;
                                     firstBonus = false;
