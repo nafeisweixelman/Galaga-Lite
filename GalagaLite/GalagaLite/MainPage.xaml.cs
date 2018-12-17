@@ -37,8 +37,6 @@ namespace GalagaLite
         public static Boolean firstBonus = true;
 
         public static int GameState = 0;
-        //High Score
-        public static string STRHighScore = "0";
 
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
@@ -82,10 +80,10 @@ namespace GalagaLite
         }
         private void RoundTimer_Tick(object sender, object e)
         {
-            if (alienList.Count < 1)
+            if (alienList.Count == 0)
             {
-                RoundTimer.Stop();
                 RoundEnded = true;
+                //RoundTimer.Stop();
             }
         }
 
@@ -120,15 +118,17 @@ namespace GalagaLite
             args.DrawingSession.DrawImage(Scaling.img(BG));
             if (RoundEnded == true)
             {
-                if (lives < 0 || count == 0)
-                    Storage.UpdateScore();
-
+                if(Storage.highScore < MyScore)
+                {
+                    args.DrawingSession.DrawText("NEW HIGH SCORE !!!!!", (float)bounds.Width/ 2 + 400, 150, Colors.Red);
+                }
+                Storage.UpdateScore();
                 Storage.ReadFile();
 
                 CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                 //Positions the highscore board after game
                 args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                args.DrawingSession.DrawText("High Score: " + Storage.highScore.ToString(), (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
+                args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
             }
             else
             {
@@ -139,7 +139,7 @@ namespace GalagaLite
                     // Positions the score board during game
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     // Positions the highscore board during game
-                    args.DrawingSession.DrawText("High Score: " + Storage.highScore.ToString(), (float)bounds.Width / 2 - 760, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 - 760, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
                     //Displaying life count
@@ -228,7 +228,7 @@ namespace GalagaLite
 
                             if(lives == 0)
                             {
-                                GSM.endGame();
+                                RoundEnded = true;
                             }
                         }
                     }
@@ -243,11 +243,17 @@ namespace GalagaLite
         {
             if (RoundEnded == true)
             {
-                if (lives > 0 && (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight))
+                if (lives > 0)
                 {
-                    GSM.nextLevel();
+                    if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
+                        GSM.nextLevel();
+                    else if (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
+                    {
+                        count = 0;
+                        GSM.endGame();
+                    }
                 }
-                else if (lives < 1 || (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight))
+                else if (lives == 0)
                 {
                     count = 0;
                     GSM.endGame();
@@ -274,10 +280,6 @@ namespace GalagaLite
                         GameState = 2;
                         GSM.startGame();
                     }
-                }
-                else if (GameState == 2)
-                {
-                    GSM.startGame();
                 }
             }
         }

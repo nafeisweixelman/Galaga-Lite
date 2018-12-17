@@ -47,8 +47,11 @@ namespace GalagaLite.Class
                 holdEnemies += 2;
             totalEnemies = holdEnemies;
 
-
+            MainPage.alienList.Clear();
+            MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
+
+            startGame();
         }
 
         public static void startGame()
@@ -56,6 +59,14 @@ namespace GalagaLite.Class
             MainPage.RoundTimer.Start();
             MainPage.EnemyTimer.Start();
             Ship.bulletTimer.Start();
+        }
+
+        public static void pauseGame()
+        {
+            if (MainPage.count == 2)
+                nextLevel();
+            else if (MainPage.count == 0)
+                endGame();
         }
 
         public static void endGame()
@@ -69,6 +80,8 @@ namespace GalagaLite.Class
             holdEnemies = 3;
             totalEnemies = holdEnemies;
 
+            MainPage.alienList.Clear();
+            MainPage.RoundTimer.Stop();
             //Stop Enemy Timer
             MainPage.EnemyTimer.Stop();
             MainPage.MyScore = 0;

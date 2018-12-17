@@ -14,8 +14,10 @@ namespace GalagaLite.Class
     {
         //High Score Saving location
         public static string filename = "GalagaLite.txt";
+        public static string STRHighScore = "";
         public static StorageFolder StorageFolder = ApplicationData.Current.LocalFolder;
         public static int highScore;
+        public static StorageFile DataFile;
 
         public static async void CreateFile()
         {
@@ -30,16 +32,16 @@ namespace GalagaLite.Class
         {
             try
             {
-                StorageFile DataFile = await StorageFolder.GetFileAsync(filename);
+                DataFile = await StorageFolder.GetFileAsync(filename);
                 BasicProperties basicProperties = await DataFile.GetBasicPropertiesAsync();
                 var size = basicProperties.Size;
 
                 if (size == 0)
-                    await FileIO.WriteTextAsync(DataFile, MainPage.MyScore.ToString());
+                    await FileIO.WriteTextAsync(DataFile, "0");
 
-                MainPage.STRHighScore = await FileIO.ReadTextAsync(DataFile);
+                STRHighScore = await FileIO.ReadTextAsync(DataFile);
 
-                highScore = Convert.ToInt16(MainPage.STRHighScore);
+                highScore = Convert.ToInt16(STRHighScore);
             }
             catch { }
         }
@@ -50,9 +52,7 @@ namespace GalagaLite.Class
             {
                 try
                 {
-                    StorageFile DataFile = await StorageFolder.GetFileAsync(filename);
                     await FileIO.WriteTextAsync(DataFile, MainPage.MyScore.ToString());
-                    ReadFile();
                 }
                 catch
                 {
