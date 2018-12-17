@@ -86,8 +86,11 @@ namespace GalagaLite
 
         private void EnemyTimer_Tick(object sender, object e)
         {
-            int AlienAttack = AlienAttackRand.Next(0, alienList.Count);
-            alienList[AlienAttack].AlienYPOS += 10;
+            if (alienList.Count > 0)
+            {
+                int AlienAttack = AlienAttackRand.Next(0, alienList.Count);
+                alienList[AlienAttack].AlienYPOS += 10;
+            }
         }
         private void RoundTimer_Tick(object sender, object e)
         {
@@ -142,7 +145,7 @@ namespace GalagaLite
                     // Positions the score board during game
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     // Positions the highscore board during game
-                    args.DrawingSession.DrawText("High Score: " + Convert.ToInt16(STRHighScore), (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("High Score: " + STRHighScore, (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
                     //Display Enemies
