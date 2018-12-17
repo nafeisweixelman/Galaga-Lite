@@ -1,11 +1,4 @@
-﻿using Microsoft.Graphics.Canvas;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GalagaLite.Class
+﻿namespace GalagaLite.Class
 {
     public class Alien
     {
@@ -13,8 +6,12 @@ namespace GalagaLite.Class
         public float AlienYPOS { get; set; }
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOS = 1;
-        public static int fleetDIR = 1;
+        public static int fleetPOSU = 3;
+        public static int fleetPOSD = -3;
+        public static int fleetDIRR = 3;
+        public static int fleetDIRL = -3;
+        public static int fleetDIR  = 3;
+        public static int fleetPOS = 3;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>
@@ -37,7 +34,7 @@ namespace GalagaLite.Class
             switch (type)
             {
                 case 1:
-                    AlienScore = 100;
+                    AlienScore = 1000;
                     break;
                 case 2:
                     AlienScore = 150;
@@ -56,21 +53,21 @@ namespace GalagaLite.Class
         {
             if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienXPOS > (MainPage.bounds.Width - 70 * MainPage.scaleWidth))
             {
-                fleetDIR = -1;
+                fleetDIR = fleetDIRL;
             }
             if (MainPage.alienList[0].AlienXPOS < 10)
             {
-                fleetDIR = 1;
+                fleetDIR = fleetDIRR;
             }
+
             AlienXPOS += fleetDIR;
+
             if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienYPOS > (MainPage.bounds.Height - 70 * MainPage.scaleHeight))
-                fleetPOS = -1;
+                fleetPOS = fleetPOSD;
             if (MainPage.alienList[0].AlienYPOS < 10)
-                fleetPOS = 1;
+               fleetPOS = fleetPOSU;
+                
             AlienYPOS += fleetPOS;
         }
-
-
-
     }
 }
