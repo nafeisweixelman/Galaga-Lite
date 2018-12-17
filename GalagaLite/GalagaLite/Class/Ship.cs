@@ -138,11 +138,11 @@ namespace GalagaLite.Class
         {
             if (rightMovement && ShipXPOS < (float)MainPage.bounds.Width - (93 * MainPage.scaleWidth))
             {
-                ShipXPOS += 3;
+                ShipXPOS += 6;
             }
             if (leftMovement && ShipXPOS > 0f)
             {
-                ShipXPOS -= 3;
+                ShipXPOS -= 6;
             }
             for (int a = 0; a < BulletXPOS.Count; a++)
             {

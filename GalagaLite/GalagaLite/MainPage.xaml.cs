@@ -148,22 +148,20 @@ namespace GalagaLite
             //additional things to draw if the game is over
             if (RoundEnded == true)
             {
+                Storage.UpdateScore();
                 //When a new Highscore is reached
-                if (Storage.highScore < MyScore)
+                if (Storage.update == true)
                 {
-                    Storage.UpdateScore();
                     Storage.ReadFile();
 
                     CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                     //Positions the highscore board after game
                     args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
-                    args.DrawingSession.DrawText("NEW HIGH SCORE !!!!!", (float)bounds.Width / 2 + 400, 150, Colors.Red);
+                    args.DrawingSession.DrawText("NEW HIGH SCORE!!!! \nHigh Score: " + Storage.STRHighScore, (float)bounds.Width / 2 + 400, 200, Color.FromArgb(255, 255, 255, 255));
                 }
                 //Every other time
                 else
                 {
-                    Storage.UpdateScore();
                     Storage.ReadFile();
 
                     CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
@@ -245,16 +243,15 @@ namespace GalagaLite
                                 myShip.removeBullet(i);
 
                                 //If not the first time receiving a bonus life then life is incremented every 1300000 points
-                                if (liveScore >= 130000 && firstBonus == false)
+                                if (liveScore >= 65000 && firstBonus == false)
                                 {
-
-                                    liveScore -= 130000;
                                     lives++;
+                                    liveScore -= 65000;
                                 }
-                                else if(liveScore >= 65000 && firstBonus == true)
+                                else if(liveScore >= 32500 && firstBonus == true)
                                 {
-                                    firstBonus = false;
                                     lives++;
+                                    firstBonus = false;
                                 }
 
                                 break;

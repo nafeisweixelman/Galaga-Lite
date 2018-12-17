@@ -19,6 +19,7 @@ namespace GalagaLite.Class
         public static StorageFolder StorageFolder = ApplicationData.Current.LocalFolder;
         public static int highScore;
         public static StorageFile DataFile;
+        public static Boolean update = false;
 
         /// <summary>
         /// Create the Datafile or if it already exists to just open it
@@ -65,10 +66,9 @@ namespace GalagaLite.Class
                 {
                     await FileIO.WriteTextAsync(DataFile, MainPage.MyScore.ToString());
                 }
-                catch
-                {
+                catch {}
 
-                }
+                update = true;
             }
         }
     }

@@ -13,10 +13,10 @@ namespace GalagaLite.Class
         public float AlienYPOS { get; set; }
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOSU = 1;
-        public static int fleetPOSD = -1;
-        public static int fleetDIRR = 1;
-        public static int fleetDIRL = -1;
+        public static int fleetPOSU = 3;
+        public static int fleetPOSD = -3;
+        public static int fleetDIRR = 3;
+        public static int fleetDIRL = -3;
         public static int fleetDIR  = 1;
         public static int fleetPOS = 1;
         /// <summary>
@@ -41,7 +41,7 @@ namespace GalagaLite.Class
             switch (type)
             {
                 case 1:
-                    AlienScore = 100;
+                    AlienScore = 1000;
                     break;
                 case 2:
                     AlienScore = 150;
