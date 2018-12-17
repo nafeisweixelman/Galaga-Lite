@@ -8,6 +8,8 @@
         public int AlienScore { get; set; }
         public int AlienType { get; }
         public static int fleetPOS = 10;
+        public static int fleetDIRR = 1;
+        public static int fleetDIRL = -1;
         public static int fleetDIR = 1;
         /// <summary>
         /// Default constructor for alien class
@@ -64,11 +66,11 @@
         {
             if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienXPOS > (MainPage.bounds.Width - 70 * MainPage.scaleWidth))
             {
-                fleetDIR = -1;
+                fleetDIR = fleetDIRL;
             }
             if (MainPage.alienList[0].AlienXPOS < 10)
             {
-                fleetDIR = 1;
+                fleetDIR = fleetDIRR;
             }
             AlienXPOS += fleetDIR;
             if (AlienYPOS >= SetYPOS + 5 || AlienYPOS <= SetYPOS - 5)

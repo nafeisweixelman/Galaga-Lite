@@ -50,13 +50,13 @@ namespace GalagaLite.Class
 
             if (level <= 5)
                 holdEnemies += 2;
-            //if (level % 5 == 0)
-            //{
-            //    Alien.fleetDIRL -= 1;
-            //    Alien.fleetDIRR += 1;
-            //    Alien.fleetPOSD -= 1;
-            //    Alien.fleetPOSU += 1;
-            //}
+            if (level % 5 == 0)
+            {
+                Alien.fleetDIRL -= 1;
+                Alien.fleetDIRR += 1;
+                //    Alien.fleetPOSD -= 1;
+                //    Alien.fleetPOSU += 1;
+            }
             totalEnemies = holdEnemies;
 
             MainPage.myShip.BulletXPOS.Clear();
@@ -91,8 +91,8 @@ namespace GalagaLite.Class
             MainPage.lives = 3;
             level = 1;
 
-            //Alien.fleetDIRL = -3;
-            //Alien.fleetDIRR = 3;
+            Alien.fleetDIRL = -1;
+            Alien.fleetDIRR = 1;
             //Alien.fleetPOSD = -3;
             //Alien.fleetPOSU = 3;
 
