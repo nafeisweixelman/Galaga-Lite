@@ -144,7 +144,7 @@ namespace GalagaLite.Class
             }
             for (int a = 0; a < BulletXPOS.Count; a++)
             {
-                BulletYPOS[a] -= 5;
+                BulletYPOS[a] -= 10;
                 if (BulletYPOS[a] < 0f)
                 {
                     removeBullet(a);

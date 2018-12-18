@@ -7,6 +7,7 @@ namespace GalagaLite.Class
     {
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
+        public static float alienDown = 4;
         public float SetYPOS;
         public float SetXPOS;
         public List<float> shootXPOS = new List<float>();
@@ -84,7 +85,7 @@ namespace GalagaLite.Class
                 {
                     AlienXPOS += 5;
                 }
-                AlienYPOS += 2;
+                AlienYPOS += alienDown;
                 AlienXPOS += fleetDIR * 5;
             }
             else

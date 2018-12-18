@@ -54,6 +54,7 @@ namespace GalagaLite.Class
             {
                 Alien.fleetDIRL -= 1;
                 Alien.fleetDIRR += 1;
+                Alien.alienDown += 1;
                 //    Alien.fleetPOSD -= 1;
                 //    Alien.fleetPOSU += 1;
             }
