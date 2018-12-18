@@ -41,7 +41,6 @@ namespace GalagaLite
 
         public static int GameState = 0;
 
-        public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
 
         public static Ship myShip;
@@ -60,8 +59,6 @@ namespace GalagaLite
             Window.Current.SizeChanged += Current_SizeChanged;
 
             Scaling.SetScale();
-            RoundTimer.Tick += RoundTimer_Tick;
-            RoundTimer.Interval = new TimeSpan(0, 0, 1);
 
             EnemyTimer.Tick += EnemyTimer_Tick;
             EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, AlienAttackRand.Next(2000, 3000));
@@ -83,19 +80,6 @@ namespace GalagaLite
             {
                 int AlienAttack = AlienAttackRand.Next(0, alienList.Count);
                 alienList[AlienAttack].AlienYPOS += 10;
-            }
-        }
-
-        /// <summary>
-        /// Begins the round and continues until conditions are met for timer to stop
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RoundTimer_Tick(object sender, object e)
-        {
-            if (alienList.Count == 0)
-            {
-                RoundEnded = true;
             }
         }
 
@@ -261,6 +245,9 @@ namespace GalagaLite
                                     lives++;
                                     firstBonus = false;
                                 }
+
+                                if (alienList.Count == 0)
+                                    RoundEnded = true;
 
                                 break;
                             }
