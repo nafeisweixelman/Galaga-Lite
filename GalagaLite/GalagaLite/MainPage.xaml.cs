@@ -223,7 +223,8 @@ namespace GalagaLite
                         boomX = 0;
                         boomY = 0;
                     }
-                    alienList[0].MoveFleet();
+                    if (alienList.Count > 0)
+                        alienList[0].MoveFleet();
                     //Enemies
                     for (int j = 0; j < alienList.Count; j++)
                     {
@@ -238,23 +239,42 @@ namespace GalagaLite
 
                         alienList[j].MoveAlien();
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
+                        for(int a = 0; a < alienList[j].getShootX().Count; a++)
+                        {
+                            args.DrawingSession.DrawImage(Scaling.img(AlienLaser), alienList[j].getShootX()[a], alienList[j].getShootY()[a]);
+                            if (alienList[j].getShootX()[a] - (25 * scaleWidth) >= myShip.ShipXPOS && alienList[j].getShootX()[a] <= myShip.ShipXPOS + (110 * scaleWidth) && alienList[j].getShootY()[a] + (60 * scaleHeight) >= myShip.ShipYPOS && alienList[j].getShootY()[a] <= myShip.ShipYPOS + (110 * scaleHeight))
+                            {
+                                boomX = myShip.ShipXPOS;
+                                boomY = myShip.ShipYPOS;
+
+                                alienList[j].removeShoot(a);
+
+                                lives--;
+
+                                if (lives == 0)
+                                {
+                                    RoundEnded = true;
+                                }
+                            }
+                        }
+                        
+
 
                     }
                     //Display Projectiles
                     for (int i = 0; i < myShip.getBulletX().Count; i++)
-                    {
-
+                    { 
                         //Beam.png needs no dimension scaling
                         args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i], myShip.getBulletY()[i]);
 
                         for (int h = 0; h < alienList.Count; h++)
                         {
                             //100 and 91 are dimensions from boom.png
-                            if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (100 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (91 * scaleHeight))
+                            if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (70 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (77 * scaleHeight))
                             {
                                 //50 is half of boom.png width 100 and 91 is also from boom.png
-                                boomX = myShip.getBulletX()[i] - (50 * scaleWidth);
-                                boomY = myShip.getBulletY()[i] - (91 * scaleHeight);
+                                boomX = alienList[h].AlienXPOS;
+                                boomY = alienList[h].AlienYPOS;
 
                                 MyScore = MyScore + alienList[h].AlienScore;        //increases score based on the alien type destroyed
                                 liveScore = liveScore + alienList[h].AlienScore;    //keeps track of score for gaining lives
@@ -281,7 +301,7 @@ namespace GalagaLite
                     //Ship/alien collision and decremention of life. Ends game when lives get to zero
                     for (int i = 0; i < alienList.Count; i++)
                     {
-                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (70 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (77 * scaleHeight))
+                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (100 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (91 * scaleHeight))
                         {
                             boomX = myShip.ShipXPOS;
                             boomY = myShip.ShipYPOS;

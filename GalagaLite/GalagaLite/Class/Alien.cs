@@ -1,4 +1,7 @@
-﻿namespace GalagaLite.Class
+﻿using System;
+using System.Collections.Generic;
+
+namespace GalagaLite.Class
 {
     public class Alien
     {
@@ -6,14 +9,16 @@
         public float AlienYPOS { get; set; }
         public float SetYPOS;
         public float SetXPOS;
-        public float shootXPOS;
-        public float shootYPOS;
+        public List<float> shootXPOS = new List<float>();
+        public List<float> shootYPOS = new List<float>();
         public int AlienScore { get; set; }
         public int AlienType { get; }
         public static int fleetPOS = 1;
         public static int fleetDIRR = 1;
         public static int fleetDIRL = -1;
         public static int fleetDIR = 1;
+
+        public Boolean attacked = false;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>
@@ -90,11 +95,23 @@
             {
                 AlienYPOS = -40;
                 AlienXPOS = SetXPOS + fleetPOS;
+                attacked = false;
             }
-            if(AlienYPOS < MainPage.bounds.Height)
+            if(AlienYPOS > MainPage.bounds.Height / 4 && !attacked)
             {
                 attack();
+                attacked = true;
             }
+            for(int a = 0; a < shootXPOS.Count; a++)
+            {
+                shootYPOS[a] += 5;
+                if(shootYPOS[a] > MainPage.bounds.Height)
+                {
+                    shootXPOS.RemoveAt(a);
+                    shootYPOS.RemoveAt(a);
+                }
+            }
+            
         }
         public void MoveFleet()
         {
@@ -111,8 +128,23 @@
 
         public void attack()
         {
-            shootXPOS = AlienXPOS;
-            shootYPOS = AlienYPOS;
+            shootXPOS.Add(AlienXPOS + (35 * MainPage.scaleWidth));
+            shootYPOS.Add(AlienYPOS);
+        }
+
+        public List<float> getShootX()
+        {
+            return shootXPOS;
+        }
+        public List<float> getShootY()
+        {
+            return shootYPOS;
+        }
+
+        public void removeShoot(int a)
+        {
+            shootXPOS.RemoveAt(a);
+            shootYPOS.RemoveAt(a);
         }
 
 
