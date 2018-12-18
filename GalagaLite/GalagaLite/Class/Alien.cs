@@ -7,10 +7,10 @@
         public float SetYPOS;
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOS = 2;
-        public static int fleetDIRR = 1;
-        public static int fleetDIRL = -1;
-        public static int fleetDIR = 1;
+        public static int fleetPOS = 26;
+        public static int fleetDIRR = 25;
+        public static int fleetDIRL = -25;
+        public static int fleetDIR = 4;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>
