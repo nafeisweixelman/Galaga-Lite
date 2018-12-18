@@ -55,14 +55,11 @@ namespace GalagaLite.Class
                 Alien.fleetDIRL -= 1;
                 Alien.fleetDIRR += 1;
                 Alien.alienDown += 1;
-                //    Alien.fleetPOSD -= 1;
-                //    Alien.fleetPOSU += 1;
             }
             totalEnemies = holdEnemies;
 
             MainPage.myShip.BulletXPOS.Clear();
             MainPage.myShip.BulletYPOS.Clear();
-            MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
 
             startGame();
@@ -73,7 +70,6 @@ namespace GalagaLite.Class
         /// </summary>
         public static void startGame()
         {
-            MainPage.RoundTimer.Start();
             MainPage.EnemyTimer.Start();
             Ship.bulletTimer.Start();
         }
@@ -94,8 +90,6 @@ namespace GalagaLite.Class
 
             Alien.fleetDIRL = -1;
             Alien.fleetDIRR = 1;
-            //Alien.fleetPOSD = -3;
-            //Alien.fleetPOSU = 3;
 
             holdEnemies = 3;
             totalEnemies = holdEnemies;
@@ -103,7 +97,6 @@ namespace GalagaLite.Class
             MainPage.myShip.BulletXPOS.Clear();
             MainPage.myShip.BulletYPOS.Clear();
             MainPage.alienList.Clear();
-            MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
             MainPage.MyScore = 0;
         }
