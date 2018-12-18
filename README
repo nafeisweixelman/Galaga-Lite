@@ -1,13 +1,14 @@
 Galaga-Lite
 A modern remake of the classic arcade game
 
-Goal to impliment:
--Scoreboard of high score
+Impliments:
+-Scoreboard of the highest score
 -Progression to different levels
 -Movement of aliens and player spaceship
 -Working laser that fires from player spaceship
--Life count that will decrease or increase
+-Life count that will decrease if hit by alien
 -Game over when life count hits zero
 
 -11/29/2018 discovered how to use GitHub
 -12/4/2018 we made branches so we could each work on different elements of the project, then merge together.
+-12/17/18 finalizing details and merging branches
