@@ -24,8 +24,6 @@ namespace GalagaLite.Class
         /// </summary>
         public Ship()
         {
-            ShipXPOS = 0;
-            ShipYPOS = 0;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.KeyUp += CoreWindow_KeyUp;
             bulletTimer.Tick += bulletTimer_Tick;
@@ -146,7 +144,7 @@ namespace GalagaLite.Class
             }
             for (int a = 0; a < BulletXPOS.Count; a++)
             {
-                BulletYPOS[a] -= 10;
+                BulletYPOS[a] -= 5;
                 if (BulletYPOS[a] < 0f)
                 {
                     removeBullet(a);
