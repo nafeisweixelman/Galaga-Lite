@@ -4,14 +4,13 @@
     {
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
+        public float SetYPOS;
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOSU = 3;
-        public static int fleetPOSD = -3;
-        public static int fleetDIRR = 3;
-        public static int fleetDIRL = -3;
-        public static int fleetDIR  = 3;
-        public static int fleetPOS = 3;
+        public static int fleetPOS = 2;
+        public static int fleetDIRR = 1;
+        public static int fleetDIRL = -1;
+        public static int fleetDIR = 1;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>
@@ -19,6 +18,27 @@
         {
             AlienXPOS = 0;
             AlienYPOS = 0;
+        }
+        public static void createAliens()
+        {
+            for (int a = 0; a < GSM.holdEnemies; a++)
+            {
+                if (GSM.totalEnemies > 0)
+                {
+                    if (GSM.holdEnemies % (a + 1) == 0)
+                    {
+                        Alien myAlien2 = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 2);
+                        MainPage.alienList.Add(myAlien2);
+                    }
+                    else
+                    {
+                        Alien myAlien = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1);
+                        MainPage.alienList.Add(myAlien);
+                    }
+                }
+
+                GSM.totalEnemies -= 1;
+            }
         }
         /// <summary>
         /// Constructor for alien class
@@ -29,12 +49,13 @@
         public Alien(float x, float y, int type)
         {
             AlienXPOS = x;
-            AlienYPOS = y;
+            AlienYPOS = y - 100;
+            SetYPOS = y;
             AlienType = type;
             switch (type)
             {
                 case 1:
-                    AlienScore = 1000;
+                    AlienScore = 100;
                     break;
                 case 2:
                     AlienScore = 150;
@@ -59,15 +80,22 @@
             {
                 fleetDIR = fleetDIRR;
             }
-
             AlienXPOS += fleetDIR;
-
-            if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienYPOS > (MainPage.bounds.Height - 70 * MainPage.scaleHeight))
-                fleetPOS = fleetPOSD;
-            if (MainPage.alienList[0].AlienYPOS < 10)
-               fleetPOS = fleetPOSU;
-                
-            AlienYPOS += fleetPOS;
+            if (AlienYPOS >= SetYPOS + 5 || AlienYPOS <= SetYPOS - 5)
+            {
+                AlienYPOS += fleetPOS;
+            }
+            else
+            {
+                AlienYPOS = SetYPOS;
+            }
+            if (AlienYPOS > MainPage.bounds.Height)
+            {
+                AlienYPOS = -40;
+            }
         }
+
+
+
     }
 }

@@ -3,7 +3,7 @@ namespace GalagaLite.Class
     class GSM
     {
         public static int level = 1;
-        public static int totalEnemies = 3, holdEnemies = totalEnemies;
+        public static int totalEnemies = 100, holdEnemies = totalEnemies;
 
         /// <summary>
         /// Sets up the background of the levels based on gamestates
@@ -31,7 +31,7 @@ namespace GalagaLite.Class
                     MainPage.BG = MainPage.Level1;
                 }
             }
-            
+
 
         }
 
@@ -48,14 +48,13 @@ namespace GalagaLite.Class
             MainPage.RoundEnded = false;
             Storage.update = false;
 
-            if(level <= 5)
+            if (level <= 5)
                 holdEnemies += 2;
-            if(level % 5 == 0)
+            if (level % 5 == 0)
             {
                 Alien.fleetDIRL -= 1;
                 Alien.fleetDIRR += 1;
-                Alien.fleetPOSD -= 1;
-                Alien.fleetPOSU += 1;
+                Alien.fleetPOS += 2;
             }
             totalEnemies = holdEnemies;
 
@@ -91,10 +90,9 @@ namespace GalagaLite.Class
             MainPage.lives = 3;
             level = 1;
 
-            Alien.fleetDIRL = -3;
-            Alien.fleetDIRR = 3;
-            Alien.fleetPOSD = -3;
-            Alien.fleetPOSU = 3;
+            Alien.fleetDIRL = -1;
+            Alien.fleetDIRR = 1;
+            Alien.fleetPOS = 2;
 
             holdEnemies = 3;
             totalEnemies = holdEnemies;
