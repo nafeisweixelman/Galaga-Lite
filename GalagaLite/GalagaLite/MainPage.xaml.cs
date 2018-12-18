@@ -36,7 +36,7 @@ namespace GalagaLite
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
         public static bool RoundEnded = false;
-        public static int lives = 5;
+        public static int lives = 3;
         public static int liveScore = 0;    //keeps track of points needed to gain an extra life
         public static Boolean firstBonus = true;
 
@@ -188,10 +188,10 @@ namespace GalagaLite
                     myShip.MoveShip();
 
                     //Displaying life count
-                    args.DrawingSession.DrawText("Lives: ", (float)bounds.Width / 2 + 350, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("Lives: ", (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     for (int i = 0; i < lives; i++)
                     {
-                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (400 + (60 * i)), (float)bounds.Height - 55);
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (450 + (60 * i)), (float)bounds.Height - 55);
                     }
 
                     //displays the explosion of ship and alien or bullet and alien
@@ -267,12 +267,12 @@ namespace GalagaLite
                                 myShip.removeBullet(i);
 
                                 //If not the first time receiving a bonus life then life is incremented every 1300000 points
-                                if (liveScore >= 2000 && firstBonus == false && lives <= 6)
+                                if (liveScore >= 130000 && firstBonus == false)
                                 {
                                     lives++;
-                                    liveScore -= 2000;
+                                    liveScore -= 130000;
                                 }
-                                else if (liveScore >= 1000 && firstBonus == true)
+                                else if (liveScore >= 65000 && firstBonus == true)
                                 {
                                     lives++;
                                     firstBonus = false;
@@ -288,7 +288,7 @@ namespace GalagaLite
                     //Ship/alien collision and decremention of life. Ends game when lives get to zero
                     for (int i = 0; i < alienList.Count; i++)
                     {
-                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (100 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (91 * scaleHeight))
+                        if (alienList[i].AlienXPOS + (70 * scaleWidth) >= myShip.ShipXPOS && alienList[i].AlienXPOS <= myShip.ShipXPOS + (110 * scaleWidth) && alienList[i].AlienYPOS + (77 * scaleHeight) >= myShip.ShipYPOS && alienList[i].AlienYPOS <= myShip.ShipYPOS + (110 * scaleHeight))
                         {
                             boomX = myShip.ShipXPOS;
                             boomY = myShip.ShipYPOS;
@@ -298,11 +298,12 @@ namespace GalagaLite
                             lives--;
 
                             if (alienList.Count == 0)
+                                RoundEnded = true;
+                            else if (lives == 0)
                             {
                                 RoundEnded = true;
                             }
-                            if (lives == 0)
-                                RoundEnded = true;
+
                         }
                     }
                     //Draws ship
