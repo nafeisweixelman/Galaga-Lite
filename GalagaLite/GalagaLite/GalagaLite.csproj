@@ -138,6 +138,7 @@
   <ItemGroup>
     <Content Include="Assets\Images\alien.png" />
     <Content Include="Assets\Images\alien2.png" />
+    <Content Include="Assets\Images\alienbeam.png" />
     <Content Include="Assets\Images\appicon.png" />
     <Content Include="Assets\Images\background2edit.png" />
     <Content Include="Assets\Images\beam.png" />
