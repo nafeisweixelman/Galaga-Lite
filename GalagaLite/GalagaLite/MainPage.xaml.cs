@@ -222,7 +222,7 @@ namespace GalagaLite
                         boomX = 0;
                         boomY = 0;
                     }
-
+                    alienList[0].MoveFleet();
                     //Enemies
                     for (int j = 0; j < alienList.Count; j++)
                     {
