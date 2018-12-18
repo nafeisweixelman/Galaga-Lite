@@ -18,6 +18,8 @@ namespace GalagaLite.Class
         public static int fleetDIRR = 1;
         public static int fleetDIRL = -1;
         public static int fleetDIR = 1;
+        public static int hold = 0, hold2 = 0;
+        public static float xpos, xpos2;
 
         public Boolean attacked = false;
         /// <summary>
@@ -34,8 +36,20 @@ namespace GalagaLite.Class
             {
                 if (GSM.totalEnemies > 0)
                 {
-                    Alien myAlien = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1);
-                    MainPage.alienList.Add(myAlien);
+                    if (GSM.level % (a+1) == 0)
+                    {
+                        xpos = 90 * hold * MainPage.scaleHeight;
+                        Alien myAlien = new Alien(xpos, (50 + MainPage.scaleHeight), 2);
+                        MainPage.alienList.Add(myAlien);
+                        hold++;
+                    }
+                    else
+                    {
+                        xpos2 = 90 * hold2 * MainPage.scaleHeight;
+                        Alien myAlien = new Alien(xpos2, (150 + MainPage.scaleHeight), 1);
+                        MainPage.alienList.Add(myAlien);
+                        hold2++;
+                    }
                 }
 
                 GSM.totalEnemies -= 1;
