@@ -5,6 +5,7 @@
  * for us to use in general. However, it did give us a good starting point and helped us to better understand the concepts
  * behind each of the methods in the xaml page and we were able to adjust those methods to better suit or needs. 
  */
+
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System;
@@ -122,17 +123,27 @@ namespace GalagaLite
         /// <returns></returns>
         async Task CreateResourcesAsync(CanvasControl sender)
         {
+            //For the Galaga Logo, https://www.deviantart.com/dreamcopter/art/Galaga-vector-logo-701705816
+            //For the startscreen, rules, continue, and game over background https://wallpapercave.com/earth-from-space-wallpapers
             StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/startedit.png"));
-            Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2edit.png"));
-            Continue = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/continueedit.png"));
-            GameOver = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameoveredit.png"));
             Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rulesedit.png"));
+            //For the level background,  http://www.zs-byczyna.info/super-hd-wallpapers-space.html
+            Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2edit.png"));
+            //For the continue icon,  https://www.shutterstock.com/es/video/clip-33270040-videogame-ending-screen-text-on-tv-game
+            Continue = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/continueedit.png"));
+            //For the game over icon, https://www.giantbomb.com/forums/general-discussion-30/geek-mind-video-game-screenshot-quiz-ultimate-jeff-1475902/
+            GameOver = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameoveredit.png"));
+            //For the laser beam, https://opengameart.org/content/bullet-collection-1-m484
             Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/beam.png"));
+            //For the spaceship, and heart image, https://www.kisspng.com/png-galaga-galaxian-golden-age-of-arcade-video-games-a-1052746/
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
-            Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
-            Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
-            Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
             Heart = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/lifecount.png"));
+            //For alien1 image, http://pixelartmaker.com/art/1c7f60a112b7ada
+            Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
+            //For alien 2 image, http://pixelartmaker.com/art/65a3ee4d8ce8eb6
+            Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
+            //For explosion image, https://www.vectorstock.com/royalty-free-vector/pixel-art-explosions-game-icons-set-comic-boom-vector-21211964
+            Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
         }
 
         /// <summary>
