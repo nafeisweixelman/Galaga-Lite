@@ -175,7 +175,7 @@ namespace GalagaLite
                     CanvasTextLayout textLayout3 = new CanvasTextLayout(args.DrawingSession, "NEW HIGHSCORE!!!!!", new CanvasTextFormat() { FontSize = (50 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                     args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
                     args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 160, 50 * scaleHeight, Colors.Red);
+                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 210, 50 * scaleHeight, Colors.Red);
                 }
                 //Every other time
                 else
