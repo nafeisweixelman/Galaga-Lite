@@ -1,3 +1,11 @@
+/*
+ * Because we had no idea where to start with this project we did a little bit of research and came upon a youtube video
+ * to help us get started. https://www.youtube.com/watch?v=XrVvoay7afg&list=PL9MEkPNM4g8VypAr9Z9wvCdvd8A9lsDtO is a very
+ * primitive space shooter game and although there may be parts that are similar such as the scaling it was not good enough
+ * for us to use in general. However, it did give us a good starting point and helped us to better understand the concepts
+ * behind each of the methods in the xaml page and we were able to adjust those methods to better suit or needs. 
+ */
+
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System;
@@ -12,9 +20,6 @@ using Windows.UI.Core;
 using GalagaLite.Class;
 using Windows.UI;
 using Microsoft.Graphics.Canvas.Text;
-using System.Numerics;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace GalagaLite
 {
@@ -23,35 +28,32 @@ namespace GalagaLite
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static CanvasBitmap BG, Rules, StartScreen, Level1, ScoreScreen, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom;
+        public static CanvasBitmap Continue, GameOver, BG, Rules, StartScreen, Level1, Photon, Enemy1, Enemy2, ALIEN_IMG, MyShip, Boom, Heart;
         public static Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         public static float DesignWidth = 1920;
         public static float DesignHeight = 1080;
         public static float scaleWidth, scaleHeight;
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
-        public static int totalEnemies = 5;
         public static bool RoundEnded = false;
-        public static int Level = 1;
+        public static int lives = 3;
+        public static int liveScore = 0;    //keeps track of points needed to gain an extra life
+        public static Boolean firstBonus = true;
+
         public static int GameState = 0;
 
-        //High Score
-        public static string STRHighScore = "0";
-
-        //Round Timers
         public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
 
-        //Ship
         public static Ship myShip;
 
         //Lists (Enemies)
-        public static List<float> enemyXPOS = new List<float>();
-        public static List<float> enemyYPOS = new List<float>();
         public static List<Alien> alienList = new List<Alien>();
-
         public Random AlienAttackRand = new Random();
 
+        /// <summary>
+        /// Constructor to intialize all timers and to create files
+        /// </summary>
         public MainPage()
         {
 
@@ -65,25 +67,17 @@ namespace GalagaLite
             EnemyTimer.Tick += EnemyTimer_Tick;
             EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, AlienAttackRand.Next(2000, 3000));
 
-            //Creating the high score file
             Storage.CreateFile();
             Storage.ReadFile();
 
-            //64 if half of spaceship.png and 200 is more than 128 to give space below the ship 
             myShip = new Ship((float)bounds.Width / 2 - (64 * scaleWidth), (float)bounds.Height - (200 * scaleHeight));
-            //creating aliens
-            for (int a = 0; a < 5; a++)
-            {
-                if (totalEnemies > 0)
-                {
-                    Alien myAlien = new Alien((90 * a * scaleHeight), (50 + scaleHeight), 1);
-                    alienList.Add(myAlien);
-                }
-
-                totalEnemies -= 1;
-            }
         }
 
+        /// <summary>
+        /// Creates the enemies
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EnemyTimer_Tick(object sender, object e)
         {
             if (alienList.Count > 0)
@@ -92,15 +86,25 @@ namespace GalagaLite
                 alienList[AlienAttack].AlienYPOS += 10;
             }
         }
+
+        /// <summary>
+        /// Begins the round and continues until conditions are met for timer to stop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RoundTimer_Tick(object sender, object e)
         {
-            if (alienList.Count < 1)
+            if (alienList.Count == 0)
             {
-                RoundTimer.Stop();
                 RoundEnded = true;
             }
         }
 
+        /// <summary>
+        /// Creates the height and width of the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             bounds = ApplicationView.GetForCurrentView().VisibleBounds;
@@ -112,47 +116,114 @@ namespace GalagaLite
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
 
+        /// <summary>
+        /// Creates the images of backgrounds, ship, aliens, bullets, explosions and lives left
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <returns></returns>
         async Task CreateResourcesAsync(CanvasControl sender)
         {
-            StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/galaga_logo.png"));
+            //For the Galaga Logo, https://www.deviantart.com/dreamcopter/art/Galaga-vector-logo-701705816
+            //For the startscreen, rules, continue, and game over background https://wallpapercave.com/earth-from-space-wallpapers
+            StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/startedit.png"));
+            Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rulesedit.png"));
+            //For the level background,  http://www.zs-byczyna.info/super-hd-wallpapers-space.html
             Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2edit.png"));
-            ScoreScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/scorescreenedit.png"));
-            Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rules.png"));
+            //For the continue icon,  https://www.shutterstock.com/es/video/clip-33270040-videogame-ending-screen-text-on-tv-game
+            Continue = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/continueedit.png"));
+            //For the game over icon, https://www.giantbomb.com/forums/general-discussion-30/geek-mind-video-game-screenshot-quiz-ultimate-jeff-1475902/
+            GameOver = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameoveredit.png"));
+            //For the laser beam, https://opengameart.org/content/bullet-collection-1-m484
             Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/beam.png"));
+            //For the spaceship, and heart image, https://www.kisspng.com/png-galaga-galaxian-golden-age-of-arcade-video-games-a-1052746/
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
+            Heart = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/lifecount.png"));
+            //For alien1 image, http://pixelartmaker.com/art/1c7f60a112b7ada
             Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
+            //For alien 2 image, http://pixelartmaker.com/art/65a3ee4d8ce8eb6
             Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
+            //For explosion image, https://www.vectorstock.com/royalty-free-vector/pixel-art-explosions-game-icons-set-comic-boom-vector-21211964
             Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
         }
+
+        /// <summary>
+        /// This is where all the drawings actually take place. By going through for loops and constantly changing the values
+        /// of x and y of the images  we can make it appear that the ships, bullets and aliens are moving. We also use this method
+        /// to show the highscore, current score, lives and levels. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void GameCanvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
-            GSM.gamelevel();
-            args.DrawingSession.DrawImage(Scaling.img(BG));
+            GSM.gameLevel();                                        //intializes the backgrounds
+            args.DrawingSession.DrawImage(Scaling.img(BG));         //draws the backgrounds
+            Alien.createAliens();
+
+            //additional things to draw if the game is over
             if (RoundEnded == true)
             {
-                Storage.UpdateScore();
+                if (lives == 0)
+                    Storage.UpdateScore();
+                //When a new Highscore is reached
+                if (Storage.update == true)
+                {
+                    Storage.ReadFile();
 
-                CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, MyScore.ToString(), new CanvasTextFormat() { FontSize = (90 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
-                //Positions the highscore board after game
-                args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 685 * scaleHeight, Colors.White);
+                    CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, "Score\n" + MyScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    //Positions the current high score after game
+                    CanvasTextLayout textLayout2 = new CanvasTextLayout(args.DrawingSession, "High Score\n" + Storage.highScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    CanvasTextLayout textLayout3 = new CanvasTextLayout(args.DrawingSession, "NEW HIGHSCORE!!!!!", new CanvasTextFormat() { FontSize = (50 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
+                    args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
+                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 210, 50 * scaleHeight, Colors.Red);
+                }
+                //Every other time
+                else
+                {
+                    Storage.ReadFile();
+
+                    CanvasTextLayout textLayout1 = new CanvasTextLayout(args.DrawingSession, "Score\n" + MyScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    //Positions the current high score after game
+                    CanvasTextLayout textLayout2 = new CanvasTextLayout(args.DrawingSession, "High Score\n" + Storage.highScore.ToString(), new CanvasTextFormat() { FontSize = (35 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
+                    args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
+                    args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
+                }
+
             }
             else
             {
                 if (GameState > 1)
                 {
                     //Positions the level number during game
-                    args.DrawingSession.DrawText("Level: " + Level.ToString(), (float)bounds.Width / 2 - 440, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("Level: " + GSM.level.ToString(), (float)bounds.Width / 2 - 440, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     // Positions the score board during game
                     args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     // Positions the highscore board during game
-                    args.DrawingSession.DrawText("High Score: " + STRHighScore, (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 - 760, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
-                    //Display Enemies
-                    if(alienList.Count > 0)
+                    //Displaying life count
+                    args.DrawingSession.DrawText("Lives: ", (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    for (int i = 0; i < lives; i++)
                     {
-                        alienList[0].MoveFleet();
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (450 + (60 * i)), (float)bounds.Height - 55);
                     }
+
+                    //displays the explosion of ship and alien or bullet and alien
+                    if (boomX > 0 && boomY > 0 && boomCount > 0)
+                    {
+                        args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
+                        boomCount--;
+                    }
+                    //otherwise resets coordinates
+                    else
+                    {
+                        boomCount = 60;
+                        boomX = 0;
+                        boomY = 0;
+                    }
+
+                    //Enemies
                     for (int j = 0; j < alienList.Count; j++)
                     {
                         if (alienList[j].AlienType == 1)
@@ -165,26 +236,13 @@ namespace GalagaLite
                         }
 
                         alienList[j].MoveAlien();
-                        //Alien.png needs no dimension scaling
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
-                    }
 
-                    //Display explosion
-                    if (boomX > 0 && boomY > 0 && boomCount > 0)
-                    {
-                        args.DrawingSession.DrawImage(Scaling.img(Boom), boomX, boomY);
-                        boomCount--;
                     }
-                    else
-                    {
-                        boomCount = 60;
-                        boomX = 0;
-                        boomY = 0;
-                    }
-
                     //Display Projectiles
                     for (int i = 0; i < myShip.getBulletX().Count; i++)
                     {
+
                         //Beam.png needs no dimension scaling
                         args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i], myShip.getBulletY()[i]);
 
@@ -197,65 +255,105 @@ namespace GalagaLite
                                 boomX = myShip.getBulletX()[i] - (50 * scaleWidth);
                                 boomY = myShip.getBulletY()[i] - (91 * scaleHeight);
 
-                                MyScore = MyScore + alienList[h].AlienScore;
+                                MyScore = MyScore + alienList[h].AlienScore;        //increases score based on the alien type destroyed
+                                liveScore = liveScore + alienList[h].AlienScore;    //keeps track of score for gaining lives
 
                                 alienList.RemoveAt(h);
                                 myShip.removeBullet(i);
 
+                                //If not the first time receiving a bonus life then life is incremented every 1300000 points
+                                if (liveScore >= 130000 && firstBonus == false)
+                                {
+                                    lives++;
+                                    liveScore -= 130000;
+                                }
+                                else if (liveScore >= 65000 && firstBonus == true)
+                                {
+                                    lives++;
+                                    firstBonus = false;
+                                }
+
                                 break;
                             }
                         }
-
                     }
+                    //Ship/alien collision and decremention of life. Ends game when lives get to zero
+                    for (int i = 0; i < alienList.Count; i++)
+                    {
+                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (70 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (77 * scaleHeight))
+                        {
+                            boomX = myShip.ShipXPOS;
+                            boomY = myShip.ShipYPOS;
+
+                            alienList.RemoveAt(i);
+
+                            lives--;
+
+                            if (lives == 0)
+                            {
+                                RoundEnded = true;
+                            }
+                        }
+                    }
+                    //Draws ship
                     args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, myShip.ShipYPOS);
                 }
             }
+
+            //Redraws everything
             GameCanvas.Invalidate();
         }
 
+        /// <summary>
+        /// Method to determine what will happen when a button is pressed on each screen and what happens when 
+        /// the round is ended
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (RoundEnded == true)
             {
-                //Button pixel positions on the scorescreen.png
-                if (((float)e.GetPosition(GameCanvas).X > 619 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1300 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 969 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1038 * scaleHeight)
+                if (lives > 0)
                 {
-                    GameState = 0;
-                    RoundEnded = false;
+                    //Continues game on the Continue screen
+                    if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
+                        GSM.nextLevel();
 
-                    //Stop Enemy Timer
-                    EnemyTimer.Stop();
-                    enemyXPOS.Clear();
-                    enemyYPOS.Clear();
-                    MyScore = 0;
+                    //returns to start screen on the Continue screen
+                    else if (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
+                    {
+                        lives = 0;
+                    }
+                }
+                else if (lives == 0)
+                {
+                    GSM.endGame();
                 }
             }
             else
             {
                 if (GameState != 2)
                 {
-                    //Button pixel positions on the galaga_logo.png for the how to play button
-                    if (((float)e.GetPosition(GameCanvas).X > 1102 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1383 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 803 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 870 * scaleHeight)
+                    //go to rules page
+                    if (((float)e.GetPosition(GameCanvas).X > 768 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1152 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 723 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 831 * scaleHeight)
                     {
                         GameState = 1;
                     }
 
-                    //Button pixel positions on the rules.png
-                    if (((float)e.GetPosition(GameCanvas).X > 258 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 624 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 670 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 805 * scaleHeight)
+                    //Return back to start screen from rules page
+                    if (((float)e.GetPosition(GameCanvas).X > 1417 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1836 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 907 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1015 * scaleHeight)
                     {
                         GameState = 0;
                     }
 
-                    //Button pixel positions on the galaga_logo.png for the start game button
-                    if (((float)e.GetPosition(GameCanvas).X > 546 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 826 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 799 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 865 * scaleHeight)
+                    //Button pixel positions on the startedit.png for the start game button
+                    if (((float)e.GetPosition(GameCanvas).X > 270 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 656 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 479 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 589 * scaleHeight)
                     {
                         GameState = 2;
-                        RoundTimer.Start();
-                        EnemyTimer.Start();
-                        Ship.bulletTimer.Start();
+                        GSM.startGame();
                     }
                 }
-                else if (GameState > 1) { }
             }
         }
     }

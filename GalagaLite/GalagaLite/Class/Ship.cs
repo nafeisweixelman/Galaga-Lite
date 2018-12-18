@@ -43,7 +43,7 @@ namespace GalagaLite.Class
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.KeyUp += CoreWindow_KeyUp;
             bulletTimer.Tick += bulletTimer_Tick;
-            bulletTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            bulletTimer.Interval = new TimeSpan(0, 0, 0, 0, 0);
         }
         /// <summary>
         /// shootWait int variable deincremented to limit amount of shots per second
@@ -101,7 +101,7 @@ namespace GalagaLite.Class
                 if (shootWait == 0)
                 {
                     //adding bullet at top center of space ship
-                    BulletXPOS.Add(ShipXPOS + (52 * MainPage.scaleWidth));
+                    BulletXPOS.Add(ShipXPOS + (46 * MainPage.scaleWidth));
                     BulletYPOS.Add(ShipYPOS);
 
                     shootWait = 10; //limiting firing to half a second
@@ -136,11 +136,11 @@ namespace GalagaLite.Class
         {
             if (rightMovement && ShipXPOS < (float)MainPage.bounds.Width - (93 * MainPage.scaleWidth))
             {
-                ShipXPOS += 3;
+                ShipXPOS += 6;
             }
             if (leftMovement && ShipXPOS > 0f)
             {
-                ShipXPOS -= 3;
+                ShipXPOS -= 6;
             }
             for (int a = 0; a < BulletXPOS.Count; a++)
             {
