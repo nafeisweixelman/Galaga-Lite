@@ -54,7 +54,6 @@ namespace GalagaLite.Class
             {
                 Alien.fleetDIRL -= 1;
                 Alien.fleetDIRR += 1;
-                Alien.fleetPOS += 2;
             }
             totalEnemies = holdEnemies;
 
@@ -64,6 +63,7 @@ namespace GalagaLite.Class
 
             startGame();
         }
+
         /// <summary>
         /// Starts the timers
         /// </summary>
@@ -89,7 +89,7 @@ namespace GalagaLite.Class
 
             Alien.fleetDIRL = -1;
             Alien.fleetDIRR = 1;
-            Alien.fleetPOS = 2;
+
 
             holdEnemies = 3;
             totalEnemies = holdEnemies;

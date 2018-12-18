@@ -5,12 +5,15 @@
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
         public float SetYPOS;
+        public float SetXPOS;
+        public float shootXPOS;
+        public float shootYPOS;
         public int AlienScore { get; set; }
         public int AlienType { get; }
-        public static int fleetPOS = 26;
-        public static int fleetDIRR = 25;
-        public static int fleetDIRL = -25;
-        public static int fleetDIR = 4;
+        public static int fleetPOS = 1;
+        public static int fleetDIRR = 1;
+        public static int fleetDIRL = -1;
+        public static int fleetDIR = 1;
         /// <summary>
         /// Default constructor for alien class
         /// </summary>
@@ -25,16 +28,8 @@
             {
                 if (GSM.totalEnemies > 0)
                 {
-                    if (GSM.holdEnemies % (a + 1) == 0)
-                    {
-                        Alien myAlien2 = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 2);
-                        MainPage.alienList.Add(myAlien2);
-                    }
-                    else
-                    {
-                        Alien myAlien = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1);
-                        MainPage.alienList.Add(myAlien);
-                    }
+                    Alien myAlien = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1);
+                    MainPage.alienList.Add(myAlien);
                 }
 
                 GSM.totalEnemies -= 1;
@@ -51,6 +46,7 @@
             AlienXPOS = x;
             AlienYPOS = y - 100;
             SetYPOS = y;
+            SetXPOS = x;
             AlienType = type;
             switch (type)
             {
@@ -72,18 +68,19 @@
 
         public void MoveAlien()
         {
-            if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienXPOS > (MainPage.bounds.Width - 70 * MainPage.scaleWidth))
-            {
-                fleetDIR = fleetDIRL;
-            }
-            if (MainPage.alienList[0].AlienXPOS < 10)
-            {
-                fleetDIR = fleetDIRR;
-            }
             AlienXPOS += fleetDIR;
-            if (AlienYPOS >= SetYPOS + 5 || AlienYPOS <= SetYPOS - 5)
+            if (AlienYPOS <= SetYPOS - 5)
             {
-                AlienYPOS += fleetPOS;
+                AlienYPOS += 2;
+            }
+            else if(AlienYPOS >= SetYPOS + 5)
+            {
+                if(AlienXPOS < 0)
+                {
+                    AlienXPOS += 5;
+                }
+                AlienYPOS += 2;
+                AlienXPOS += fleetDIR * 5;
             }
             else
             {
@@ -92,7 +89,30 @@
             if (AlienYPOS > MainPage.bounds.Height)
             {
                 AlienYPOS = -40;
+                AlienXPOS = SetXPOS + fleetPOS;
             }
+            if(AlienYPOS < MainPage.bounds.Height)
+            {
+                attack();
+            }
+        }
+        public void MoveFleet()
+        {
+            fleetPOS += fleetDIR;
+            if(fleetPOS > 40)
+            {
+                fleetDIR = fleetDIRL;
+            }
+            if(fleetPOS < 1)
+            {
+                fleetDIR = fleetDIRR;
+            }
+        }
+
+        public void attack()
+        {
+            shootXPOS = AlienXPOS;
+            shootYPOS = AlienYPOS;
         }
 
 
