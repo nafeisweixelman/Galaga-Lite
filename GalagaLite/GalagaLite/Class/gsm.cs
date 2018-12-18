@@ -54,6 +54,7 @@ namespace GalagaLite.Class
             {
                 Alien.fleetDIRL -= 1;
                 Alien.fleetDIRR += 1;
+                Alien.alienDown += 1;
             }
             totalEnemies = holdEnemies;
 
@@ -89,7 +90,6 @@ namespace GalagaLite.Class
 
             Alien.fleetDIRL = -1;
             Alien.fleetDIRR = 1;
-
 
             holdEnemies = 3;
             totalEnemies = holdEnemies;
