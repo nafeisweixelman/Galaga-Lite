@@ -51,6 +51,8 @@ namespace GalagaLite.Class
             MainPage.GameState = 2;
             MainPage.RoundEnded = false;
             Storage.update = false;
+            Alien.hold = 0;
+            Alien.hold2 = 0;
 
             if (level <= 5)
                 holdEnemies += 2;
@@ -91,6 +93,8 @@ namespace GalagaLite.Class
             Storage.update = false;
             MainPage.lives = 3;
             level = 1;
+            Alien.hold = 0;
+            Alien.hold2 = 0;
 
             Alien.fleetDIRL = -1;
             Alien.fleetDIRR = 1;
