@@ -3,7 +3,7 @@ namespace GalagaLite.Class
     class GSM
     {
         public static int level = 1;
-        public static int totalEnemies = 100, holdEnemies = totalEnemies;
+        public static int totalEnemies = 5, holdEnemies = totalEnemies;
 
         /// <summary>
         /// Sets up the background of the levels based on gamestates
@@ -60,18 +60,15 @@ namespace GalagaLite.Class
 
             MainPage.myShip.BulletXPOS.Clear();
             MainPage.myShip.BulletYPOS.Clear();
-            MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
 
             startGame();
         }
-
         /// <summary>
         /// Starts the timers
         /// </summary>
         public static void startGame()
         {
-            MainPage.RoundTimer.Start();
             MainPage.EnemyTimer.Start();
             Ship.bulletTimer.Start();
         }
@@ -100,7 +97,6 @@ namespace GalagaLite.Class
             MainPage.myShip.BulletXPOS.Clear();
             MainPage.myShip.BulletYPOS.Clear();
             MainPage.alienList.Clear();
-            MainPage.RoundTimer.Stop();
             MainPage.EnemyTimer.Stop();
             MainPage.MyScore = 0;
         }

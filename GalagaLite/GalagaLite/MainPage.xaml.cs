@@ -38,10 +38,10 @@ namespace GalagaLite
         public static int lives = 3;
         public static int liveScore = 0;    //keeps track of points needed to gain an extra life
         public static Boolean firstBonus = true;
+        public static int pause = 0;
 
         public static int GameState = 0;
 
-        public static DispatcherTimer RoundTimer = new DispatcherTimer();
         public static DispatcherTimer EnemyTimer = new DispatcherTimer();
 
         public static Ship myShip;
@@ -62,8 +62,6 @@ namespace GalagaLite
             Window.Current.SizeChanged += Current_SizeChanged;
 
             Scaling.SetScale();
-            RoundTimer.Tick += RoundTimer_Tick;
-            RoundTimer.Interval = new TimeSpan(0, 0, 1);
 
             EnemyTimer.Tick += EnemyTimer_Tick;
             EnemyTimer.Interval = new TimeSpan(0, 0, 0, 0, AlienAttackRand.Next(2000, 3000));
@@ -85,19 +83,6 @@ namespace GalagaLite
             {
                 int AlienAttack = AlienAttackRand.Next(0, alienList.Count);
                 alienList[AlienAttack].AlienYPOS += 10;
-            }
-        }
-
-        /// <summary>
-        /// Begins the round and continues until conditions are met for timer to stop
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RoundTimer_Tick(object sender, object e)
-        {
-            if (alienList.Count == 0)
-            {
-                RoundEnded = true;
             }
         }
 
@@ -264,6 +249,8 @@ namespace GalagaLite
                                     firstBonus = false;
                                 }
 
+                                if (alienList.Count == 0)
+                                    RoundEnded = true;
                                 break;
                             }
                         }
@@ -271,12 +258,13 @@ namespace GalagaLite
                     //Ship/alien collision and decremention of life. Ends game when lives get to zero
                     for (int i = 0; i < alienList.Count; i++)
                     {
-                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (70 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (77 * scaleHeight))
+                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (100 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (91 * scaleHeight))
                         {
                             boomX = myShip.ShipXPOS;
                             boomY = myShip.ShipYPOS;
 
                             alienList.RemoveAt(i);
+                            args.DrawingSession.DrawImage(Scaling.img(MyShip), myShip.ShipXPOS, (float)bounds.Width * 2);
 
                             lives--;
 
