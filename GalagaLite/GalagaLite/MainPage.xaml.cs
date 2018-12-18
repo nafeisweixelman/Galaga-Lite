@@ -149,6 +149,10 @@ namespace GalagaLite
                     myShip.MoveShip();
 
                     //Display Enemies
+                    if(alienList.Count > 0)
+                    {
+                        alienList[0].MoveFleet();
+                    }
                     for (int j = 0; j < alienList.Count; j++)
                     {
                         if (alienList[j].AlienType == 1)

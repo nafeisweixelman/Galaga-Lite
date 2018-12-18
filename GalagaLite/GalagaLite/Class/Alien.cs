@@ -56,11 +56,11 @@ namespace GalagaLite.Class
 
         public void MoveAlien()
         {
-            if (MainPage.alienList[(MainPage.alienList.Count) - 1].AlienXPOS > (MainPage.bounds.Width - 70 * MainPage.scaleWidth))
+            if (fleetPOS > 80)
             {
                 fleetDIR = -1;
             }
-            if (MainPage.alienList[0].AlienXPOS < 10)
+            if (fleetPOS < 1)
             {
                 fleetDIR = 1;
             }
@@ -77,6 +77,19 @@ namespace GalagaLite.Class
             {
                 AlienYPOS = -40;
             }
+        }
+
+        public void MoveFleet()
+        {
+            if (fleetPOS > 80)
+            {
+                fleetDIR = -1;
+            }
+            if (fleetPOS < 1)
+            {
+                fleetDIR = 1;
+            }
+            fleetPOS += fleetDIR;
         }
 
 
