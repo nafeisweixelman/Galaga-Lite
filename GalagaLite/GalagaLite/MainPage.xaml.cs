@@ -288,7 +288,7 @@ namespace GalagaLite
                     //Ship/alien collision and decremention of life. Ends game when lives get to zero
                     for (int i = 0; i < alienList.Count; i++)
                     {
-                        if (myShip.ShipXPOS >= alienList[i].AlienXPOS && myShip.ShipXPOS <= alienList[i].AlienXPOS + (100 * scaleWidth) && myShip.ShipYPOS >= alienList[i].AlienYPOS && myShip.ShipYPOS <= alienList[i].AlienYPOS + (91 * scaleHeight))
+                        if (alienList[i].AlienXPOS + (70 * scaleWidth) >= myShip.ShipXPOS && alienList[i].AlienXPOS <= myShip.ShipXPOS + (110 * scaleWidth) && alienList[i].AlienYPOS + (77 * scaleHeight) >= myShip.ShipYPOS && alienList[i].AlienYPOS <= myShip.ShipYPOS + (110 * scaleHeight))
                         {
                             boomX = myShip.ShipXPOS;
                             boomY = myShip.ShipYPOS;
@@ -297,10 +297,13 @@ namespace GalagaLite
 
                             lives--;
 
-                            if (lives == 0)
+                            if (alienList.Count == 0)
+                                RoundEnded = true;
+                            else if (lives == 0)
                             {
                                 RoundEnded = true;
                             }
+
                         }
                     }
                     //Draws ship

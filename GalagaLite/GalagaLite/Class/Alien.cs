@@ -34,7 +34,8 @@ namespace GalagaLite.Class
             {
                 if (GSM.totalEnemies > 0)
                 {
-                    Alien myAlien = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1);
+                    Alien myAlien = new Alien((float)(MainPage.bounds.Width / 2) - (GSM.totalEnemies * 45) + (a * 45 * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1); 
+                    //Alien myAlien = new Alien((90 * a * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 1);
                     MainPage.alienList.Add(myAlien);
                 }
 
