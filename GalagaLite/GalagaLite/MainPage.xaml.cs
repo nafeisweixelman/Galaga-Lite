@@ -47,7 +47,7 @@ namespace GalagaLite
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
         public static bool RoundEnded = false;
-        public static int lives = 5;
+        public static int lives = 3;
         public static int liveScore = 0;    //keeps track of points needed to gain an extra life
         public static Boolean firstBonus = true;
 
@@ -268,12 +268,12 @@ namespace GalagaLite
                                 myShip.removeBullet(i);
 
                                 //If not the first time receiving a bonus life then life is incremented every 1300000 points
-                                if (liveScore >= 4000 && firstBonus == false && lives < 6)
+                                if (liveScore >= 65000 && firstBonus == false && lives < 6)
                                 {
                                     lives++;
-                                    liveScore -= 4000;
+                                    liveScore -= 65000;
                                 }
-                                if (liveScore >= 2000 && firstBonus == true)
+                                if (liveScore >= 32000 && firstBonus == true)
                                 {
                                     lives++;
                                     firstBonus = false;
