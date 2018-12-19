@@ -104,6 +104,5 @@ namespace GalagaLite.Class
             MainPage.EnemyTimer.Stop();
             MainPage.MyScore = 0;
         }
-
     }
 }

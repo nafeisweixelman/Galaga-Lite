@@ -5,6 +5,7 @@ namespace GalagaLite.Class
 {
     public class Alien
     {
+        //Getters and setters for the enemies
         public float AlienXPOS { get; set; }
         public float AlienYPOS { get; set; }
         public static float alienDown = 4;
@@ -179,8 +180,5 @@ namespace GalagaLite.Class
             shootXPOS.RemoveAt(a);
             shootYPOS.RemoveAt(a);
         }
-
-
-
     }
 }
