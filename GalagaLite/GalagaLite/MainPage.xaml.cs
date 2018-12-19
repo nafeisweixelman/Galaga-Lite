@@ -12,7 +12,6 @@ using Windows.UI.Core;
 using GalagaLite.Class;
 using Windows.UI;
 using Microsoft.Graphics.Canvas.Text;
-using System.Numerics;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
