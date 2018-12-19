@@ -268,12 +268,12 @@ namespace GalagaLite
                                 myShip.removeBullet(i);
 
                                 //If not the first time receiving a bonus life then life is incremented every 1300000 points
-                                if (liveScore >= 130000 && firstBonus == false)
+                                if (liveScore >= 4000 && firstBonus == false)
                                 {
                                     lives++;
-                                    liveScore -= 130000;
+                                    liveScore -= 4000;
                                 }
-                                else if (liveScore >= 65000 && firstBonus == true)
+                                else if (liveScore >= 2000 && firstBonus == true)
                                 {
                                     lives++;
                                     firstBonus = false;
