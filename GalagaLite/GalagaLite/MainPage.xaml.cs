@@ -6,6 +6,17 @@
  * behind each of the methods in the xaml page and we were able to adjust those methods to better suit or needs. 
  */
 
+//For the Galaga Logo, https://www.deviantart.com/dreamcopter/art/Galaga-vector-logo-701705816
+//For the startscreen, rules, continue, and game over background https://wallpapercave.com/earth-from-space-wallpapers
+//For the level background,  http://www.zs-byczyna.info/super-hd-wallpapers-space.html
+//For the continue icon,  https://www.shutterstock.com/es/video/clip-33270040-videogame-ending-screen-text-on-tv-game
+//For the game over icon, https://www.giantbomb.com/forums/general-discussion-30/geek-mind-video-game-screenshot-quiz-ultimate-jeff-1475902/
+//For the laser beam, https://opengameart.org/content/bullet-collection-1-m484
+//For the spaceship, and heart image, https://www.kisspng.com/png-galaga-galaxian-golden-age-of-arcade-video-games-a-1052746/
+//For alien1 image, http://pixelartmaker.com/art/1c7f60a112b7ada
+//For alien 2 image, http://pixelartmaker.com/art/65a3ee4d8ce8eb6
+//For explosion image, https://www.vectorstock.com/royalty-free-vector/pixel-art-explosions-game-icons-set-comic-boom-vector-21211964
+
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System;
@@ -107,27 +118,17 @@ namespace GalagaLite
         /// <returns></returns>
         async Task CreateResourcesAsync(CanvasControl sender)
         {
-            //For the Galaga Logo, https://www.deviantart.com/dreamcopter/art/Galaga-vector-logo-701705816
-            //For the startscreen, rules, continue, and game over background https://wallpapercave.com/earth-from-space-wallpapers
             StartScreen = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/startedit.png"));
             Rules = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/rulesedit.png"));
-            //For the level background,  http://www.zs-byczyna.info/super-hd-wallpapers-space.html
             Level1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/background2edit.png"));
-            //For the continue icon,  https://www.shutterstock.com/es/video/clip-33270040-videogame-ending-screen-text-on-tv-game
             Continue = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/continueedit.png"));
-            //For the game over icon, https://www.giantbomb.com/forums/general-discussion-30/geek-mind-video-game-screenshot-quiz-ultimate-jeff-1475902/
             GameOver = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/gameoveredit.png"));
-            //For the laser beam, https://opengameart.org/content/bullet-collection-1-m484
             Photon = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/beam.png"));
             AlienLaser = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alienbeam.png"));
-            //For the spaceship, and heart image, https://www.kisspng.com/png-galaga-galaxian-golden-age-of-arcade-video-games-a-1052746/
             MyShip = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/spaceship.png"));
             Heart = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/lifecount.png"));
-            //For alien1 image, http://pixelartmaker.com/art/1c7f60a112b7ada
             Enemy1 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien.png"));
-            //For alien 2 image, http://pixelartmaker.com/art/65a3ee4d8ce8eb6
             Enemy2 = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/alien2.png"));
-            //For explosion image, https://www.vectorstock.com/royalty-free-vector/pixel-art-explosions-game-icons-set-comic-boom-vector-21211964
             Boom = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/Images/boom.png"));
         }
 
@@ -160,7 +161,7 @@ namespace GalagaLite
                     CanvasTextLayout textLayout3 = new CanvasTextLayout(args.DrawingSession, "NEW HIGHSCORE!!!!!", new CanvasTextFormat() { FontSize = (50 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                     args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
                     args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 210, 50 * scaleHeight, Colors.Red);
+                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 200, 50 * scaleHeight, Colors.Red);
                 }
                 //Every other time
                 else
@@ -180,18 +181,18 @@ namespace GalagaLite
                 if (GameState > 1)
                 {
                     //Positions the level number during game
-                    args.DrawingSession.DrawText("Level: " + GSM.level.ToString(), (float)bounds.Width / 2 - 440, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("Level: " + GSM.level.ToString(), (float)bounds.Width / 2 - 185, (float)bounds.Height - 35, Color.FromArgb(255, 255, 255, 255));
                     // Positions the score board during game
-                    args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("Score: " + MyScore.ToString(), (float)bounds.Width / 2 - 40, (float)bounds.Height - 35, Color.FromArgb(255, 255, 255, 255));
                     // Positions the highscore board during game
-                    args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 - 760, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("High Score: " + Storage.STRHighScore, (float)bounds.Width / 2 - 430, (float)bounds.Height - 35, Color.FromArgb(255, 255, 255, 255));
                     myShip.MoveShip();
 
                     //Displaying life count
-                    args.DrawingSession.DrawText("Lives: ", (float)bounds.Width / 2 + 400, (float)bounds.Height - 45, Color.FromArgb(255, 255, 255, 255));
+                    args.DrawingSession.DrawText("Lives: ", (float)bounds.Width / 2 + 150, (float)bounds.Height - 35, Color.FromArgb(255, 255, 255, 255));
                     for (int i = 0; i < lives; i++)
                     {
-                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (450 + (60 * i)), (float)bounds.Height - 55);
+                        args.DrawingSession.DrawImage(Scaling.img(Heart), (float)bounds.Width / 2 + (210 + (50 * i)), (float)bounds.Height - 40);
                     }
 
                     //displays the explosion of ship and alien or bullet and alien
@@ -223,7 +224,7 @@ namespace GalagaLite
 
                         alienList[j].MoveAlien();
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
-                        for(int a = 0; a < alienList[j].getShootX().Count; a++)
+                        for (int a = 0; a < alienList[j].getShootX().Count; a++)
                         {
                             args.DrawingSession.DrawImage(Scaling.img(AlienLaser), alienList[j].getShootX()[a], alienList[j].getShootY()[a]);
                             if (alienList[j].getShootX()[a] - (25 * scaleWidth) >= myShip.ShipXPOS && alienList[j].getShootX()[a] <= myShip.ShipXPOS + (110 * scaleWidth) && alienList[j].getShootY()[a] + (60 * scaleHeight) >= myShip.ShipYPOS && alienList[j].getShootY()[a] <= myShip.ShipYPOS + (110 * scaleHeight))
@@ -241,19 +242,19 @@ namespace GalagaLite
                                 }
                             }
                         }
-                        
+
 
 
                     }
                     //Display Projectiles
                     for (int i = 0; i < myShip.getBulletX().Count; i++)
-                    { 
+                    {
                         //Beam.png needs no dimension scaling
                         args.DrawingSession.DrawImage(Scaling.img(Photon), myShip.getBulletX()[i], myShip.getBulletY()[i]);
 
                         for (int h = 0; h < alienList.Count; h++)
                         {
-                            //100 and 91 are dimensions from boom.png
+                            //70 and 77 are dimensions from boom.png
                             if (myShip.getBulletX()[i] >= alienList[h].AlienXPOS && myShip.getBulletX()[i] <= alienList[h].AlienXPOS + (70 * scaleWidth) && myShip.getBulletY()[i] >= alienList[h].AlienYPOS && myShip.getBulletY()[i] <= alienList[h].AlienYPOS + (77 * scaleHeight))
                             {
                                 //50 is half of boom.png width 100 and 91 is also from boom.png
@@ -327,11 +328,11 @@ namespace GalagaLite
             {
                 if (lives > 0)
                 {
-                    //Continues game on the Continue screen
+                    //Continues game on the Continue screen based on the button pixel position
                     if (((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 826 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 891 * scaleHeight)
                         GSM.nextLevel();
 
-                    //returns to start screen on the Continue screen
+                    //returns to start screen on the Continue screen based on button pixel position
                     else if (lives > 0 && ((float)e.GetPosition(GameCanvas).X > 621 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1303 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 946 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1008 * scaleHeight)
                     {
                         lives = 0;
@@ -346,13 +347,13 @@ namespace GalagaLite
             {
                 if (GameState != 2)
                 {
-                    //go to rules page
+                    //go to rules page using button pixel positions
                     if (((float)e.GetPosition(GameCanvas).X > 768 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1152 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 723 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 831 * scaleHeight)
                     {
                         GameState = 1;
                     }
 
-                    //Return back to start screen from rules page
+                    //Return back to start screen from rules page using button pixel positions
                     if (((float)e.GetPosition(GameCanvas).X > 1417 * scaleWidth && (float)e.GetPosition(GameCanvas).X < 1836 * scaleWidth) && (float)e.GetPosition(GameCanvas).Y > 907 * scaleHeight && (float)e.GetPosition(GameCanvas).Y < 1015 * scaleHeight)
                     {
                         GameState = 0;
