@@ -105,7 +105,11 @@ namespace GalagaLite
             bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             Scaling.SetScale();
         }
-
+        /// <summary>
+        /// create resources
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void GameCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
@@ -208,6 +212,8 @@ namespace GalagaLite
                         boomX = 0;
                         boomY = 0;
                     }
+
+                    //moving alien fleet
                     if (alienList.Count > 0)
                         alienList[0].MoveFleet();
                     //Enemies
@@ -221,12 +227,15 @@ namespace GalagaLite
                         {
                             ALIEN_IMG = Enemy2;
                         }
-
+                        //moving aliens and drawing
                         alienList[j].MoveAlien();
                         args.DrawingSession.DrawImage(Scaling.img(ALIEN_IMG), alienList[j].AlienXPOS, alienList[j].AlienYPOS);
+
+                        //alien projectiles
                         for (int a = 0; a < alienList[j].getShootX().Count; a++)
                         {
                             args.DrawingSession.DrawImage(Scaling.img(AlienLaser), alienList[j].getShootX()[a], alienList[j].getShootY()[a]);
+                            //alien projectile collision
                             if (alienList[j].getShootX()[a] - (25 * scaleWidth) >= myShip.ShipXPOS && alienList[j].getShootX()[a] <= myShip.ShipXPOS + (110 * scaleWidth) && alienList[j].getShootY()[a] + (60 * scaleHeight) >= myShip.ShipYPOS && alienList[j].getShootY()[a] <= myShip.ShipYPOS + (110 * scaleHeight))
                             {
                                 boomX = myShip.ShipXPOS;

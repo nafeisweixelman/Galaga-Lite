@@ -29,15 +29,21 @@ namespace GalagaLite.Class
             AlienXPOS = 0;
             AlienYPOS = 0;
         }
+        /// <summary>
+        /// function to create aliens
+        /// </summary>
         public static void createAliens()
         {
             for (int a = 0; a < GSM.holdEnemies; a++)
             {
+                //creates totalEnemies amount of aliens
                 if (GSM.totalEnemies > 0)
                 {
+                    //creates alien and sets it on X, top row, type 2
                     Alien myAlien = new Alien((float)(MainPage.bounds.Width / 2) - ((GSM.holdEnemies - 1) * 50 * MainPage.scaleWidth) + (a * 100 * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 2);
                     MainPage.alienList.Add(myAlien);
 
+                    //creates alien and sets it to X, bottom row, type 1
                     Alien myAlien2 = new Alien((float)(MainPage.bounds.Width / 2) - ((GSM.holdEnemies - 1) * 50 * MainPage.scaleWidth) + (a * 100 * MainPage.scaleHeight), (150 + MainPage.scaleHeight), 1);
                     MainPage.alienList.Add(myAlien2);
                 }
@@ -78,36 +84,42 @@ namespace GalagaLite.Class
 
         public void MoveAlien()
         {
-            AlienXPOS += fleetDIR;
+            AlienXPOS += fleetDIR; //moves alien in fleet direction
+            //if alien is above setYPOS moves alien down into setYPOS
             if (AlienYPOS <= SetYPOS - 5)
             {
                 AlienYPOS += 2;
             }
+            //if alien is below setYPOS then moves alien down and sets into attack mode
             else if(AlienYPOS >= SetYPOS + 5)
             {
                 if(AlienXPOS < 0)
                 {
                     AlienXPOS += 5;
                 }
-                AlienYPOS += alienDown;
-                AlienXPOS += fleetDIR * 5;
+                AlienYPOS += alienDown; //alien moves down at variable speed set by level
+                AlienXPOS += fleetDIR * 5; // alien moves side to side more when attacking
             }
+            //if alien is in bounds it goes to setYPOS
             else
             {
                 AlienYPOS = SetYPOS;
             }
+            //if alien goes off screen at bottom it resets up top
             if (AlienYPOS > MainPage.bounds.Height)
             {
                 AlienYPOS = -40;
                 AlienXPOS = SetXPOS + fleetPOS;
                 attacked = false;
             }
-            if(AlienYPOS > MainPage.bounds.Height / 4 && !attacked)
+            //if alien is quarter way down screen then it shoots laser
+            if (AlienYPOS > MainPage.bounds.Height / 4 && !attacked)
             {
                 attack();
                 attacked = true;
             }
-            for(int a = 0; a < shootXPOS.Count; a++)
+            //moving alien projectile and deleting it off screen
+            for (int a = 0; a < shootXPOS.Count; a++)
             {
                 shootYPOS[a] += 7;
                 if(shootYPOS[a] > MainPage.bounds.Height)
@@ -118,6 +130,9 @@ namespace GalagaLite.Class
             }
             
         }
+        /// <summary>
+        /// moves fleet between 0 and 41
+        /// </summary>
         public void MoveFleet()
         {
             fleetPOS += fleetDIR;
@@ -131,21 +146,34 @@ namespace GalagaLite.Class
             }
         }
 
+        /// <summary>
+        /// alien attack method adds projectile at current alien position
+        /// </summary>
         public void attack()
         {
             shootXPOS.Add(AlienXPOS + (35 * MainPage.scaleWidth));
             shootYPOS.Add(AlienYPOS);
         }
-
+        /// <summary>
+        /// returns list for getshootx
+        /// </summary>
+        /// <returns></returns>
         public List<float> getShootX()
         {
             return shootXPOS;
         }
+        /// <summary>
+        /// returns list for getshooty
+        /// </summary>
+        /// <returns></returns>
         public List<float> getShootY()
         {
             return shootYPOS;
         }
-
+        /// <summary>
+        /// removes shoot at a
+        /// </summary>
+        /// <param name="a"></param>
         public void removeShoot(int a)
         {
             shootXPOS.RemoveAt(a);

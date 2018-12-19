@@ -134,6 +134,7 @@ namespace GalagaLite.Class
         /// </summary>
         public void MoveShip()
         {
+            //moving ship right and left
             if (rightMovement && ShipXPOS < (float)MainPage.bounds.Width - (93 * MainPage.scaleWidth))
             {
                 ShipXPOS += 6;
@@ -142,6 +143,7 @@ namespace GalagaLite.Class
             {
                 ShipXPOS -= 6;
             }
+            //moving bullet and deleting once gets off screen
             for (int a = 0; a < BulletXPOS.Count; a++)
             {
                 BulletYPOS[a] -= 10;
