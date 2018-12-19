@@ -52,7 +52,7 @@ namespace GalagaLite.Class
             MainPage.RoundEnded = false;
             Storage.update = false;
 
-            if (level <= 5)
+            if (level < 5)
                 holdEnemies += 2;
             if (level % 5 == 0)
             {

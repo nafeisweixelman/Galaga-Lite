@@ -47,7 +47,7 @@ namespace GalagaLite
         public static float MyScore, boomX, boomY;
         public static int boomCount = 60;
         public static bool RoundEnded = false;
-        public static int lives = 3;
+        public static int lives = 5;
         public static int liveScore = 0;    //keeps track of points needed to gain an extra life
         public static Boolean firstBonus = true;
 
@@ -161,7 +161,7 @@ namespace GalagaLite
                     CanvasTextLayout textLayout3 = new CanvasTextLayout(args.DrawingSession, "NEW HIGHSCORE!!!!!", new CanvasTextFormat() { FontSize = (50 * scaleHeight), WordWrapping = CanvasWordWrapping.NoWrap }, 0.0f, 0.0f);
                     args.DrawingSession.DrawTextLayout(textLayout1, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 400 * scaleHeight, Colors.White);
                     args.DrawingSession.DrawTextLayout(textLayout2, ((DesignWidth * scaleWidth) / 2) - ((float)textLayout1.DrawBounds.Width / 2), 560 * scaleHeight, Colors.White);
-                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 200, 50 * scaleHeight, Colors.Red);
+                    args.DrawingSession.DrawTextLayout(textLayout3, ((float)bounds.Width / 2) - 160, 50 * scaleHeight, Colors.Red);
                 }
                 //Every other time
                 else
@@ -268,12 +268,12 @@ namespace GalagaLite
                                 myShip.removeBullet(i);
 
                                 //If not the first time receiving a bonus life then life is incremented every 1300000 points
-                                if (liveScore >= 4000 && firstBonus == false)
+                                if (liveScore >= 4000 && firstBonus == false && lives < 6)
                                 {
                                     lives++;
                                     liveScore -= 4000;
                                 }
-                                else if (liveScore >= 2000 && firstBonus == true)
+                                if (liveScore >= 2000 && firstBonus == true)
                                 {
                                     lives++;
                                     firstBonus = false;

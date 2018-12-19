@@ -35,10 +35,10 @@ namespace GalagaLite.Class
             {
                 if (GSM.totalEnemies > 0)
                 {
-                    Alien myAlien = new Alien((float)(MainPage.bounds.Width / 2) - (GSM.totalEnemies * 45) + (a * 45 * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 2);
+                    Alien myAlien = new Alien((float)(MainPage.bounds.Width / 2) - ((GSM.holdEnemies - 1) * 50 * MainPage.scaleWidth) + (a * 100 * MainPage.scaleHeight), (50 + MainPage.scaleHeight), 2);
                     MainPage.alienList.Add(myAlien);
 
-                    Alien myAlien2 = new Alien((float)(MainPage.bounds.Width / 2) - (GSM.totalEnemies * 45) + (a * 45 * MainPage.scaleHeight), (150 + MainPage.scaleHeight), 1);
+                    Alien myAlien2 = new Alien((float)(MainPage.bounds.Width / 2) - ((GSM.holdEnemies - 1) * 50 * MainPage.scaleWidth) + (a * 100 * MainPage.scaleHeight), (150 + MainPage.scaleHeight), 1);
                     MainPage.alienList.Add(myAlien2);
                 }
 
@@ -109,7 +109,7 @@ namespace GalagaLite.Class
             }
             for(int a = 0; a < shootXPOS.Count; a++)
             {
-                shootYPOS[a] += 5;
+                shootYPOS[a] += 7;
                 if(shootYPOS[a] > MainPage.bounds.Height)
                 {
                     shootXPOS.RemoveAt(a);
