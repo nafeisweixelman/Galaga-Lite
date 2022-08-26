@@ -1,5 +1,5 @@
 # Galaga-Lite
-A modern remake of the classic arcade game
+A modern remake of the classic arcade game \
 This remake was coded in Visual Studios 2018 with C# Universal Windows Platform (UWP)
 
 Key features:
