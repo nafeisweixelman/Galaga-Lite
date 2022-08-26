@@ -1,14 +1,12 @@
 Galaga-Lite
-A modern remake of the classic arcade game
+A modern remake of the classic arcade game using a C# Visual Studios Universal Windows Platform (UWP)
+This remake was coded in Visual Studios 2018
 
-Impliments:
--Scoreboard of the highest score
--Progression to different levels
+Features:
+-Scoreboard with the high score
+-Game progression on different levels
+-Difficulty increases over time
 -Movement of aliens and player spaceship
 -Working laser that fires from player spaceship
 -Life count that will decrease if hit by alien
 -Game over when life count hits zero
-
--11/29/2018 discovered how to use GitHub
--12/4/2018 we made branches so we could each work on different elements of the project, then merge together.
--12/17/18 finalizing details and merging branches
